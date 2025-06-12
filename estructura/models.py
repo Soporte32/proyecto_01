@@ -3,20 +3,28 @@ from django.contrib.auth.models import User
 
 sexos = (('F','Femenino'),('M','Masculino'))
 si_o_no = (('S','Sí'),('N','No'))
+ACTIVO_CHOICES = [("Si", "Si"),("No", "No"),]
 
 class Empleado(models.Model):
-    legajo =  models.CharField(max_length=40, verbose_name='Legajo', blank=False, null=False)
+    legajo = models.PositiveIntegerField(verbose_name='Legajo', blank=False, null=False)
     nombre =  models.CharField(max_length=254, verbose_name='Nombres', blank=False, null=False)
     apellido =  models.CharField(max_length=254, verbose_name='Apellidos', blank=False, null=False)
     usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True)
 
-    categoria = models.ForeignKey("Categoria", verbose_name='Categoría', on_delete=models.RESTRICT, null=True)
-    lugar_trabajo = models.ForeignKey("LugarTrabajo", verbose_name='Lugar de Trabajo', on_delete=models.RESTRICT, null=True)
+    dni = models.PositiveIntegerField(verbose_name='DNI', blank=False, null=False)
+    cuil = models.CharField(max_length=13, verbose_name='CUIL', blank=False, null=False)
 
+    telefono =  models.CharField(max_length=25, verbose_name='Teléfono', blank=True, null=True)
+    email = models.EmailField(verbose_name='Correo Electrónico', blank=True, null=True)
+
+   # categoria = models.ForeignKey("Categoria", verbose_name='Categoría', on_delete=models.RESTRICT, null=True)
+    
     fecha_creacion = models.DateTimeField(verbose_name='Fecha de Creación', auto_now_add=True)
 
-    fecha_nacimiento = models.DateField(verbose_name='Fecha de Nacimiento', blank=True, null=True)
-    sexo = models.CharField(max_length=1, choices=sexos, verbose_name='Sexos', default='F')
+  #  fecha_nacimiento = models.DateField(verbose_name='Fecha de Nacimiento', blank=True, null=True)
+  #  sexo = models.CharField(max_length=1, choices=sexos, verbose_name='Sexos', default='F')
+
+    activo = models.CharField(max_length=2, choices=ACTIVO_CHOICES, default="Si")
 	
     def nombre_completo(self):
         return (self.apellido + ", " + self.nombre)
@@ -29,19 +37,6 @@ class Empleado(models.Model):
         verbose_name_plural='Empleados'
         db_table='empleados'
         ordering=['apellido','nombre']
-
-
-class LugarTrabajo(models.Model):
-    nombre = models.CharField(max_length=80, verbose_name='Nombre', blank=False, null=False)
-
-    def __str__(self):
-        return self.nombre
-
-    class Meta:
-        verbose_name='Lugar de Trabajo'
-        verbose_name_plural='Lugares de Trabajo'
-        db_table='lugares_trabajo'
-        ordering=['nombre']
 
 
 class Categoria(models.Model):
@@ -88,7 +83,6 @@ class Dia(models.Model):
 
 
 class Prestacion(models.Model):
-    ACTIVO_CHOICES = [("Si", "Si"),("No", "No"),]
 
     codigo = models.CharField(max_length=50)  # Código de la prestación
     descripcion = models.TextField(max_length=150)  # Descripción de la prestación

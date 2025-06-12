@@ -1,6 +1,9 @@
 from django import forms
 from .models import Dia, TipoDia
 
+class ExcelUploadForm(forms.Form):
+    file = forms.FileField(label="Selecciona un archivo Excel")
+
 class AnioForm(forms.Form):
     anio = forms.IntegerField(label="Ingrese un año", min_value=2016, max_value=2040)
 

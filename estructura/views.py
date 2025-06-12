@@ -2,10 +2,13 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.template.loader import *
 from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 
-from django.shortcuts import render, get_object_or_404
-from .models import Dia, TipoDia
-from .forms import AnioForm, DiaForm, TipoDiaUpdateForm
+import pandas as pd
+
+from .models import Dia, TipoDia, Empleado
+from .forms import AnioForm, DiaForm, TipoDiaUpdateForm, ExcelUploadForm
 from datetime import date, timedelta
 
 @login_required
@@ -105,3 +108,36 @@ def es_editar_dia(request):
         'mensaje': mensaje
     })
 
+@login_required
+def es_importar_empleados(request):
+    if request.method == 'POST':
+        form = ExcelUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            try:
+                df = pd.read_excel(file)
+
+                for _, row in df.iterrows():
+
+                    dni_sin_puntos = str(row['DNI']).replace('.', '')
+
+                    empleado, created = Empleado.objects.update_or_create(
+                        legajo=row['Legajo'],
+                        defaults={
+                            'nombre': row['Nombre'],
+                            'apellido': row['Apellido'],
+                            'telefono': row.get('Telefono', ''),
+                            'dni': int(dni_sin_puntos),
+                            'cuil': row['CUIL'],
+                            'email': row.get('Email', ''),
+                        }
+                    )
+                    
+                messages.success(request, "Archivo procesado correctamente.")
+
+            except Exception as e:
+                messages.error(request, f"Error al procesar el archivo: {e}")
+    else:
+        form = ExcelUploadForm()
+
+    return render(request, 'es-importar-empleados.html', {'form': form})
