@@ -20,7 +20,6 @@ services:
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
-      - ./staticfiles:/app/staticfiles
     ports:
       - "8000:8000"
     environment:
