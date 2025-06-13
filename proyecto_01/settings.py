@@ -125,10 +125,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-# Directorio donde buscará los archivos estáticos durante el desarrollo
 STATICFILES_DIRS = [ BASE_DIR / "static",]
 
-# Directorio de recolección (solo en producción)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
