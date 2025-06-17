@@ -12,11 +12,11 @@ services:
     ports:
       - "5432:5432"
 
-  django1:
+  django:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_app_1
+    container_name: django_app
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
@@ -26,38 +26,11 @@ services:
       - DEBUG=False
       - UID=${UID:-1000}
       - GID=${GID:-1000}
-      - DB_NAME=base_01
+      - DB_NAME=bse_01
       - DB_USER=postgres
       - DB_PASSWORD=ciudades512
       - DB_HOST=postgres
-      - DB_PORT=5432
-    depends_on:
-      - postgres
-    command: >
-      /bin/bash -c "
-      python manage.py migrate &&
-      python manage.py collectstatic --noinput &&
-      gunicorn proyecto_01.wsgi:application --bind 0.0.0.0:8000 --workers 3"
-
-  django2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: django_app_2
-    volumes:
-      - ./:/app
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - "8001:8000"
-    environment:
-      - DEBUG=False
-      - UID=${UID:-1000}
-      - GID=${GID:-1000}
-      - DB_NAME=base_01
-      - DB_USER=postgres
-      - DB_PASSWORD=ciudades512
-      - DB_HOST=postgres
-      - DB_PORT=5432
+      - DB_PORT=5432      
     depends_on:
       - postgres
     command: >
@@ -79,9 +52,9 @@ services:
       - ./ssl/selfsigned.crt:/etc/ssl/certs/selfsigned.crt:ro
       - ./ssl/selfsigned.key:/etc/ssl/private/selfsigned.key:ro
     depends_on:
-      - django1
-      - django2
+      - django
     command: nginx -g 'daemon off;'
 
 volumes:
   postgres_data:
+  
