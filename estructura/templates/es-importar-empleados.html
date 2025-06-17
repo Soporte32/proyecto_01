@@ -1,0 +1,38 @@
+{% extends "es-nav.html" %}
+{% block title %}Importar Empleados{% endblock %}
+{% load static %}
+
+    {% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-body py-4 my-2">
+                <h2 class="text-center mb-5">Subir Empleados desde Excel</h2>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="text-center mt-3">
+                <a href="es-inicio" class="btn btn-success text-white">Volver</a>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% else %}
+
+                <form method="post" enctype="multipart/form-data" class="mt-3">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary mt-2">Subir y Procesar</button>
+                </form>
+{% endif %}
+            </div>
+        </div>
+    </div>
+    {% endblock %}

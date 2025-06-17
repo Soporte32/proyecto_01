@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{% endblock %} - Hospital SAMIC El Calafate</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"><link rel="stylesheet" href="{% static 'css/hospital.css' %}">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+<style>
+    .logout-btn { background-color: #4d7ec7; color: white; }
+    .logout-btn:hover { background-color: #011e35; color: white; }
+</style>
+</head>
+<body>
+<header>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Hospital SAMIC El Calafate</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+                    <div class="me-3 my-2">
+                        <a href="/" class="btn btn-outline-secondary btn-sm">Volver al Dashboard</a>
+                    </div>   
+        {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn logout-btn btn-sm my-2">Cerrar Sesión</button>
+                    </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+</header>
+    
+
+    <main class="container mt-4">
+        {% block content %}
+        <!-- El contenido específico de cada página se colocará aquí -->
+        {% endblock %}
+    </main>
+
+<div class="pt-2"><footer class="py-3 mt-5 border-top">
+    <p class="text-center text-body-secondary">&copy; 2025 Hospital SAMIC El Calafate</p>
+</footer></div>
+
+</body>
+</html>
