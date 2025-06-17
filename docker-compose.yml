@@ -20,6 +20,9 @@ services:
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
+
+    # Se quito la sección "ports" por no es necesario exponerlo al host cuando NGINX lo consume dentro de la red interna de docker
+  
     environment:
       - DEBUG=False
       - UID=${UID:-1000}
@@ -56,6 +59,8 @@ services:
       - DB_PORT=5432
     depends_on:
       - postgres
+
+    # Aca se saco el migrate para que no haga el migrations de vuelta, ya lo hizo el Django1
     command: gunicorn proyecto_01.wsgi:application --bind 0.0.0.0:8000 --workers 3
 
   nginx:
