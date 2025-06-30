@@ -25,32 +25,35 @@
     }
 </style>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <!-- Primera mitad de la barra (50% a la izquierda) -->
-        <div class="d-flex justify-content-between w-50 align-items-center">
-            <!-- Botón de Volver a Presupuestos -->
-            <a href="{% url 'detalle_presupuestador' %}" class="btn btn-primary me-2">Volver a Presupuestos</a>
-            
-            <!-- Botón de Imprimir -->
-            <button onclick="triggerPrint()" class="btn btn-secondary ms-auto">Imprimir</button>
-        </div>
+<!-- Título -->
+<div class="text-center mb-5">
+    <h1 class="display-5">Presupuesto Hospital Samic El Calafate</h1>
+</div>
 
-        <!-- Segunda mitad de la barra (50% a la derecha) -->
-        <div class="d-flex justify-content-end w-50 align-items-center">
-            <!-- Botón de Editar Presupuesto -->
-            {% if modo_edicion %}
-                <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-warning me-3">Volver</a>
-            {% else %}
-                <a href="{% url 'detalle_presupuesto' presupuesto.numero %}?modo_edicion=true" class="btn btn-warning me-3">Editar Presupuesto</a>
-            {% endif %}
-            
-            <!-- Botón de Agregar Item -->
-            <a href="{% url 'agregar_item' presupuesto.numero %}" class="btn btn-primary" style="margin-left: 30px;">Agregar Item</a>
-        </div>
+<!-- Navbar -->
+<div class="container-fluid">
+  <div class="row w-100">
+    <div class="col-12 d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+
+      <!-- Botón de Volver a Presupuestos -->
+      <a href="{% url 'detalle_presupuestador' %}" class="btn btn-primary me-lg-2 mb-2 mb-lg-0">Volver a Presupuestos</a>
+
+      <!-- Botón de Imprimir -->
+      <button onclick="triggerPrint()" class="btn btn-secondary me-lg-2 mb-2 mb-lg-0">Imprimir</button>
+
+      <!-- Botón de Editar/Volver -->
+      {% if modo_edicion %}
+        <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-warning me-lg-2 mb-2 mb-lg-0">Volver</a>
+      {% else %}
+        <a href="{% url 'detalle_presupuesto' presupuesto.numero %}?modo_edicion=true" class="btn btn-warning me-lg-2 mb-2 mb-lg-0">Editar Presupuesto</a>
+      {% endif %}
+
+      <!-- Botón de Agregar Item -->
+      <a href="{% url 'agregar_item' presupuesto.numero %}" class="btn btn-primary mb-2 mb-lg-0">Agregar Item</a>
+
     </div>
-</nav>
+  </div>
+</div>
 
 
 
@@ -59,11 +62,6 @@
         window.print(); // Abre el cuadro de diálogo de impresión
     }
 </script>
-
-<!-- Título -->
-<div class="text-center mb-4">
-    <h1 class="display-5">Presupuesto Hospital Samic El Calafate</h1>
-</div>
 
 <!-- Datos del Presupuesto -->
 <div class="container mt-5">
@@ -110,6 +108,7 @@
             <th class="text-left">Código</th>
             <th class="text-left">Descripción</th>
             <th class="text-left">Servicio</th>
+            <th class="text-left">Detalle</th>
             <th class="text-center">Cantidad</th>
             <th class="text-center">Precio</th>
             <th class="text-center">Total</th>
@@ -125,6 +124,7 @@
             <td class="text-center">{{ detalle.prestacion.codigo }}</td>
             <td>{{ detalle.prestacion.descripcion }}</td>
             <td>{{ detalle.prestacion.servicio }}</td>
+            <td class="text-center">{{ detalle.item.detalle }}</td>
             <td class="text-center">{{ detalle.item.cantidad }}</td>
             <td class="text-right">{{ detalle.prestacion.total }}</td>
             <td class="text-right">{{ detalle.total_linea|floatformat:2 }}</td>

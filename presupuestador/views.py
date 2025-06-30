@@ -53,6 +53,7 @@ def agregar_item(request, presupuesto_id):
     presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
 
     if request.method == 'POST':
+        detalle = request.POST.get('detalle')
         cantidad = request.POST.get('cantidad')
         prestacion_id = request.POST.get('prestacion')
 
@@ -62,7 +63,8 @@ def agregar_item(request, presupuesto_id):
             # Crear un nuevo Item
             item = PresupuestoItem.objects.create(
                 presupuesto=presupuesto,
-                cantidad=cantidad
+                cantidad=cantidad,
+                detalle=detalle
             )
 
             # Asociar el item con DetallePrestacion
@@ -198,7 +200,7 @@ def importar_nomenclador(request):
                 df = pd.read_excel(excel_file)  # Leer Excel con Pandas
 
                 # Actualizar todos los registros a "activo" = "No"
-                Prestacion.objects.all().update(activo="No")
+                Prestacion.objects.exclude(codigo="999.99.99").update(activo="No")
                 
                 # Iterar desde la segunda línea en adelante
                 for index, row in df.iterrows():

@@ -119,6 +119,7 @@ class Presupuesto(models.Model):
     
 class PresupuestoItem(models.Model):
     presupuesto = models.ForeignKey(Presupuesto, on_delete=models.CASCADE)
+    detalle = models.CharField(max_length=100, blank=True, default='')
     cantidad = models.PositiveIntegerField(default=0)  # Nueva cantidad
 
     def __str__(self):
