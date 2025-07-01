@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17.5-bullseye
-    container_name: postgres_db
+    # container_name: postgres_db
     restart: always
     environment:
       POSTGRES_DB: base_01
@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_app_1
+    # container_name: django_app_1
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
@@ -45,7 +45,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_app_2
+    # container_name: django_app_2
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
@@ -69,7 +69,7 @@ services:
 
   nginx:
     image: nginx:latest
-    container_name: nginx_proxy
+    # container_name: nginx_proxy
     ports:
       - "80:80"
       - "443:443"
