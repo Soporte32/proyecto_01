@@ -40,7 +40,7 @@ class PresupuestoAdmin(admin.ModelAdmin):
 @admin.register(Prestacion)
 class PrestacionAdmin(admin.ModelAdmin):
     # Columnas visibles en la lista de elementos
-    list_display = ('codigo', 'descripcion', 'honorarios', 'ayudante', 'gastos', 'anestesia', 'total', 'servicio', 'practica')
+    list_display = ('codigo', 'descripcion', 'activo','honorarios', 'ayudante', 'gastos', 'anestesia', 'total', 'servicio', 'practica')
     
     # Campos que se pueden buscar
     search_fields = ('codigo', 'descripcion', 'servicio', 'practica')
@@ -54,7 +54,7 @@ class PrestacionAdmin(admin.ModelAdmin):
     # Campos que se agrupan para editar
     fieldsets = (
         ("Información General", {
-            'fields': ('codigo', 'descripcion', 'servicio', 'practica')
+            'fields': ('codigo', 'descripcion', 'activo','servicio', 'practica')
         }),
         ("Detalles Económicos", {
             'fields': ('honorarios', 'ayudante', 'gastos', 'anestesia', 'total')
