@@ -1,0 +1,153 @@
+{% extends 'presupuestador-nav.html' %}
+{% load static %}
+{% block title %}Detalle del Presupuesto{% endblock %}
+
+{% block content %}
+<style>
+    @media print {
+        .row {
+            display: flex !important; /* Asegura que las columnas estén en la misma fila */
+            align-items: center; /* Alinea verticalmente los elementos */
+        }
+
+        .col-md-6 {
+            flex: 0 0 50%; /* Fuerza que cada columna ocupe el 50% */
+            max-width: 50%; /* Ajusta el ancho máximo */
+        }
+
+        .card {
+            margin: 0; /* Elimina márgenes innecesarios */
+        }
+
+        img {
+            max-height: 80px; /* Mantiene el tamaño del logo */
+        }
+    }
+</style>
+
+<!-- Título -->
+<div class="text-center mb-5">
+    <h1 class="display-5">Presupuesto Hospital Samic El Calafate</h1>
+</div>
+
+<!-- Navbar -->
+<div class="container-fluid">
+  <div class="row w-100">
+    <div class="col-12 d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+
+      <!-- Botón de Volver a Presupuestos -->
+      <a href="{% url 'detalle_presupuestador' %}" class="btn btn-primary me-lg-2 mb-2 mb-lg-0">Volver a Presupuestos</a>
+
+      <!-- Botón de Imprimir -->
+      <button onclick="triggerPrint()" class="btn btn-secondary me-lg-2 mb-2 mb-lg-0">Imprimir</button>
+
+      <!-- Botón de Editar/Volver -->
+      {% if modo_edicion %}
+        <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-warning me-lg-2 mb-2 mb-lg-0">Volver</a>
+      {% else %}
+        <a href="{% url 'detalle_presupuesto' presupuesto.numero %}?modo_edicion=true" class="btn btn-warning me-lg-2 mb-2 mb-lg-0">Editar Presupuesto</a>
+      {% endif %}
+
+      <!-- Botón de Agregar Item -->
+      <a href="{% url 'agregar_item' presupuesto.numero %}" class="btn btn-primary mb-2 mb-lg-0">Agregar Item</a>
+
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+    function triggerPrint() {
+        window.print(); // Abre el cuadro de diálogo de impresión
+    }
+</script>
+
+<!-- Datos del Presupuesto -->
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <!-- Columna Izquierda: Tarjeta de Datos del Presupuesto -->
+        <div class="col-md-6 d-flex justify-content-start">
+            <div class="card mb-3" style="width: 100%; max-width: 500px;">
+                <div class="card-body p-2">
+                    <div class="row">
+                        <!-- Columna de Títulos -->
+                        <div class="col-5">
+                            <p class="mb-1"><strong>Presupuesto #:</strong></p>
+                            <p class="mb-1"><strong>Fecha:</strong></p>
+                            <p class="mb-1"><strong>Cliente:</strong></p>
+                            <p class="mb-1"><strong>Documento:</strong></p>
+                        </div>
+                        <!-- Columna de Datos -->
+                        <div class="col-7">
+                            <p class="mb-1">{{ presupuesto.numero }}</p>
+                            <p class="mb-1">{{ presupuesto.fecha }}</p>
+                            <p class="mb-1">{{ presupuesto.cliente }}</p>
+                            <p class="mb-1">{{ presupuesto.documento }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Logo -->
+        <div class="col-md-6 d-flex justify-content-end">
+            <img src="{% static 'images/logo_samic.jpg' %}" alt="Logo" class="img-fluid" style="max-height: 80px;">
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Tabla con Detalles -->
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th class="text-left">Código</th>
+            <th class="text-left">Descripción</th>
+            <th class="text-left">Servicio</th>
+            <th class="text-left">Detalle</th>
+            <th class="text-center">Cantidad</th>
+            <th class="text-center">Precio</th>
+            <th class="text-center">Total</th>
+            {% if modo_edicion %}
+            <th class="text-center">Acciones</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for detalle in detalles %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="text-center">{{ detalle.prestacion.codigo }}</td>
+            <td>{{ detalle.prestacion.descripcion }}</td>
+            <td>{{ detalle.prestacion.servicio }}</td>
+            <td class="text-center">{{ detalle.item.detalle }}</td>
+            <td class="text-center">{{ detalle.item.cantidad }}</td>
+            <td class="text-end">{{ detalle.item.precio|floatformat:2 }}</td>
+            <td class="text-end">{{ detalle.total_linea|floatformat:2 }}</td>
+            {% if modo_edicion %}
+            <td class="text-center">
+                <form method="POST" action="{% url 'eliminar_item' presupuesto.numero %}" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="item_id" value="{{ detalle.id }}">
+                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7" class="text-right"><strong>Total General $:</strong></td>
+            <td class="text-end">{{ total_general|floatformat:2 }}</td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}
+
+
+

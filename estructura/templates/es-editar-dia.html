@@ -1,0 +1,54 @@
+{% extends 'es-nav.html' %}
+{% block title %}Editar Día{% endblock %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <!-- Título fuera del card -->
+        <h1 class="text-center">Editar Día</h1>
+        <p class="text-center text-muted">Cambiando el tipo de día en una fecha del calendario.</p>
+<div class="col-lg-5 mx-auto">
+        <div class="card shadow">
+            <div class="card-body">
+                {% if mensaje %}
+                    <div class="alert alert-danger text-center">{{ mensaje }}</div>
+                {% endif %}
+
+                <form method="POST" class="mb-4 py-2">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Ingrese una Fecha:</label>
+                        <br>{{ dia_form.fecha }}
+                    </div>
+                    <div class="text-start">
+                        <button type="submit" class="btn btn-primary">Buscar Día</button>
+                    </div>
+                </form>
+
+                {% if dia %}
+                    <div class="border-top pt-4">
+                       
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Tipo de Día:</label>
+        <select name="tipo_dia" class="form-select">
+            {% for tipo in tipo_dia_form.fields.tipo_dia.queryset %}
+                <option value="{{ tipo.id }}" {% if tipo.id == dia.tipo_dia.id %}selected{% endif %}>
+                    {{ tipo.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="text-start">
+        <button type="submit" name="update_tipo_dia" class="btn btn-success">Actualizar Tipo de Día</button>
+    </div>
+</form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+</div>
+    </div>
+
+{% endblock %}

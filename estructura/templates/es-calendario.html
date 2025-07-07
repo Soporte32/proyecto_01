@@ -1,0 +1,14 @@
+{% extends 'es-nav.html' %}
+{% block title %}Calendario{% endblock %}
+{% load static %}
+
+{% block content %}
+    <h1 class="my-5">Calendario</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Generar Días</button>
+    </form>
+
+
+{% endblock %}    

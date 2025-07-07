@@ -1,0 +1,52 @@
+Internal Server Error: /presupuestador/presupuesto/1/detalle/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
+    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
+                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
+"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
+Internal Server Error: /presupuestador/presupuesto/1/detalle/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
+    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
+                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
+"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
+Internal Server Error: /presupuestador/presupuesto/1/detalle/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
+    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
+                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
+"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
+Internal Server Error: /presupuestador/presupuesto/1/detalle/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
+    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
+                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
+"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71347
