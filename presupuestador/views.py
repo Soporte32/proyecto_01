@@ -14,10 +14,16 @@ from decimal import Decimal, InvalidOperation
 import numpy as np  # Importa numpy para manejar NaN
 from openpyxl.styles import NamedStyle
 import openpyxl
+from django.http import HttpResponseRedirect
 
+def sin_permiso(request):
+    usuario = request.user
+    return not usuario.groups.filter(name__in=['Administradores', 'Presupuestos']).exists()
 
 @login_required
 def presupuesto_nuevo(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
     if request.method == 'POST':
         # Obtiene los datos del formulario
         cliente = request.POST.get('cliente')
@@ -41,6 +47,8 @@ def presupuesto_nuevo(request):
 
 @login_required
 def detalle_presupuestador(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     presupuestos = Presupuesto.objects.all()  # Obtén todos los presupuestos
     return render(request, 'detalle_presupuestador.html', {
         'presupuestos': presupuestos,
@@ -50,6 +58,8 @@ def detalle_presupuestador(request):
 
 @login_required
 def agregar_item(request, presupuesto_id):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
     presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
 
     if request.method == 'POST':
@@ -94,6 +104,8 @@ def agregar_item(request, presupuesto_id):
 
 @login_required
 def eliminar_item(request, presupuesto_id):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     if request.method == "POST":
         item_id = request.POST.get("item_id")  # Obtén el ID del ítem desde el formulario
         detalle = get_object_or_404(PresupuestoPrestacion, pk=item_id, presupuesto_id=presupuesto_id)
@@ -109,6 +121,8 @@ def eliminar_item(request, presupuesto_id):
 
 @login_required
 def detalle_presupuesto(request, presupuesto_id):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
     # Obtiene el presupuesto o lanza un error 404 si no existe
     presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
     
@@ -137,6 +151,8 @@ def detalle_presupuesto(request, presupuesto_id):
 
 @login_required
 def obtener_prestaciones(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
     servicio = request.GET.get('servicio')
     #print(f"Servicio solicitado: {servicio}")  # Log temporal
     if servicio:
@@ -146,12 +162,16 @@ def obtener_prestaciones(request):
 
 @login_required
 def buscar_descripcion(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     query = request.GET.get('q', '')
     resultados = Prestacion.objects.filter(descripcion__icontains=query).values('id', 'descripcion')[:10]
     return JsonResponse(list(resultados), safe=False)
 
 @login_required
 def nueva_prestacion(request, presupuesto_id):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     presupuesto = get_object_or_404(Presupuesto, id=presupuesto_id)
 
     # Obtener todas las prestaciones disponibles
@@ -180,6 +200,8 @@ def nueva_prestacion(request, presupuesto_id):
 
 @login_required
 def editar_presupuesto(request, numero):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     # Obtiene el presupuesto o lanza un error 404 si no existe
     presupuesto = get_object_or_404(Presupuesto, numero=numero)
 
@@ -200,6 +222,8 @@ def editar_presupuesto(request, numero):
 
 @login_required
 def importar_nomenclador(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     if request.method == "POST":
         form = ExcelUploadForm(request.POST, request.FILES)
         if form.is_valid():

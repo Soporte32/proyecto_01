@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'base_01',
         'USER': 'postgres',
         'PASSWORD': 'ciudades512',
-        'HOST': 'postgres',    # va '127.0.0.1' o 'postgres' antes de subirlo a Git Hub
+        'HOST': '127.0.0.1',    # va '127.0.0.1' o 'postgres' antes de subirlo a Git Hub
         'DATABASE_PORT': '5432'		
     }
 }

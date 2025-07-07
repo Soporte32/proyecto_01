@@ -3,22 +3,27 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 
-
 import pandas as pd
 
 from .models import Dia, TipoDia, TipoEmpleado, Empleado
 from .forms import AnioForm, DiaForm, TipoDiaUpdateForm, ExcelUploadForm
 from datetime import date, timedelta
 
+def sin_permiso(request):
+    usuario = request.user
+    return not usuario.groups.filter(name='Administradores').exists()
+
+
 @login_required
 def es_inicio(request):
-    usuario = request.user
-    if not usuario.groups.filter(name='Administradores').exists():
-        return HttpResponseRedirect("/")
+    if sin_permiso(request): return HttpResponseRedirect("/")
+    
     return render(request, "es-inicio.html")
 
 @login_required
 def es_calendario(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     mensaje = None  # Variable para mostrar mensaje si el año ya existe
 
     if request.method == "POST":
@@ -54,6 +59,8 @@ def es_calendario(request):
 
 @login_required
 def es_ver_calendario(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     form = AnioForm()
     dias = None
     mensaje = None
@@ -71,6 +78,8 @@ def es_ver_calendario(request):
 
 @login_required
 def es_editar_dia(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     dia_form = DiaForm(request.POST or None)
     tipo_dia_form = None
     dia = None
@@ -115,6 +124,8 @@ def limpiar_valor(valor):
 
 @login_required
 def es_importar_empleados(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+        
     if request.method == 'POST':
         form = ExcelUploadForm(request.POST, request.FILES)
         if form.is_valid():
