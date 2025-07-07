@@ -10,6 +10,9 @@ from .forms import AnioForm, DiaForm, TipoDiaUpdateForm, ExcelUploadForm
 from datetime import date, timedelta
 from django.contrib.auth.models import User
 
+from django.db import transaction
+
+
 def sin_permiso(request):
     usuario = request.user
     return not usuario.groups.filter(name='Administradores').exists()
@@ -124,7 +127,7 @@ def limpiar_valor(valor):
 
 @login_required
 def es_importar_empleados(request):
-    if sin_permiso(request): return HttpResponseRedirect("/")    
+    if sin_permiso(request): return HttpResponseRedirect("/")  
     if request.method == 'POST':
         form = ExcelUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -133,63 +136,74 @@ def es_importar_empleados(request):
                 df = pd.read_excel(file)
 
                 for _, row in df.iterrows():
-                    # Limpiar y extraer datos
-                    nombre = limpiar_valor(row['Nombre']).strip()
-                    apellido = limpiar_valor(row['Apellido']).strip()
-                    legajo_str = str(row['Legajo'])
-                    dni_str = str(row['DNI']).replace('.', '')
-                    cuil = limpiar_valor(row['CUIL'])
+                    try:
+                        with transaction.atomic():
+                            nombre = limpiar_valor(row['Nombre']).strip()
+                            apellido = limpiar_valor(row['Apellido']).strip()
+                            legajo_str = str(row['Legajo'])
+                            dni_str = str(row['DNI']).replace('.', '')
+                            cuil = limpiar_valor(row['CUIL'])
 
-                    # Armar nombre de usuario
-                    primer_letra_nombre = nombre[0].lower()
-                    primer_palabra_apellido = apellido.split()[0].lower()
-                    username = f"{primer_letra_nombre}{primer_palabra_apellido}"
+                            # Verificar si ya existe un empleado con el mismo DNI
+                            if Empleado.objects.filter(dni=int(dni_str)).exclude(legajo=row['Legajo']).exists():
+                                print(f"Ya existe un empleado con DNI {dni_str}. Omitido legajo {row['Legajo']}.")
+                                continue
 
-                    # Verificar si existe
-                    usuario_obj = User.objects.filter(username=username).first()
+                            # Username: primera letra del nombre + primer palabra del apellido
+                            primer_letra_nombre = nombre[0].lower()
+                            primer_palabra_apellido = apellido.split()[0].lower()
+                            username = f"{primer_letra_nombre}{primer_palabra_apellido}"
 
-                    # Si no existe, lo creamos y lo usamos
-                    if not usuario_obj:
-                        password = f"{nombre[0].upper()}{primer_palabra_apellido[0].lower()}{legajo_str[-1]}{dni_str[-3:]}"
-                        usuario_obj = User.objects.create_user(
-                            username=username,
-                            password=password,
-                            first_name=nombre,
-                            last_name=apellido,
-                            email=limpiar_valor(row.get('Email', '')),
-                        )
-                    else:
-                        usuario_obj = None  # Si existe, no se vincula al Empleado
+                            usuario_obj = User.objects.filter(username=username).first()
 
-                    # Tipo de empleado
-                    tipo_empleado_nombre = row.get('Tipo', '').strip()
-                    tipo_empleado_obj = TipoEmpleado.objects.filter(nombre__iexact=tipo_empleado_nombre).first() if tipo_empleado_nombre else None
+                            # Crear usuario si no existe
+                            if not usuario_obj:
+                                dni_digitos = dni_str.zfill(8)  # asegurar longitud
+                                password = (
+                                    f"{nombre[0].upper()}"
+                                    f"{primer_palabra_apellido[0].lower()}"
+                                    f"{dni_digitos[0]}"
+                                    f"{legajo_str[-1]}"
+                                    f"{dni_digitos[-2:]}"
+                                )
+                                usuario_obj = User.objects.create_user(
+                                    username=username,
+                                    password=password,
+                                    first_name=nombre,
+                                    last_name=apellido,
+                                    email=limpiar_valor(row.get('Email', '')),
+                                )
+                            else:
+                                usuario_obj = None  # Usuario existe: no lo vinculamos
 
-                    # Fechas
-                    fecha_nacimiento = pd.to_datetime(row.get('FechaNacimiento', None), dayfirst=True, errors='coerce')
-                    fecha_ingreso = pd.to_datetime(row.get('FechaIngreso', None), dayfirst=True, errors='coerce')
+                            tipo_empleado_nombre = row.get('Tipo', '').strip()
+                            tipo_empleado_obj = TipoEmpleado.objects.filter(nombre__iexact=tipo_empleado_nombre).first() if tipo_empleado_nombre else None
 
-                    # Crear o actualizar empleado
-                    Empleado.objects.update_or_create(
-                        legajo=row['Legajo'],
-                        defaults={
-                            'nombre': nombre,
-                            'apellido': apellido,
-                            'telefono': limpiar_valor(row.get('Telefono', '')),
-                            'dni': int(dni_str),
-                            'cuil': cuil,
-                            'email': limpiar_valor(row.get('Email', '')),
-                            'tipo_empleado': tipo_empleado_obj,
-                            'fecha_nacimiento': fecha_nacimiento if pd.notnull(fecha_nacimiento) else None,
-                            'matricula': limpiar_valor(row.get('Matricula', '')),
-                            'fecha_ingreso': fecha_ingreso if pd.notnull(fecha_ingreso) else None,
-                            'usuario': usuario_obj,  # Solo se asigna si fue creado
-                        }
-                    )
+                            fecha_nacimiento = pd.to_datetime(row.get('FechaNacimiento', None), dayfirst=True, errors='coerce')
+                            fecha_ingreso = pd.to_datetime(row.get('FechaIngreso', None), dayfirst=True, errors='coerce')
+
+                            Empleado.objects.update_or_create(
+                                legajo=row['Legajo'],
+                                defaults={
+                                    'nombre': nombre,
+                                    'apellido': apellido,
+                                    'telefono': limpiar_valor(row.get('Telefono', '')),
+                                    'dni': int(dni_str),
+                                    'cuil': cuil,
+                                    'email': limpiar_valor(row.get('Email', '')),
+                                    'tipo_empleado': tipo_empleado_obj,
+                                    'fecha_nacimiento': fecha_nacimiento if pd.notnull(fecha_nacimiento) else None,
+                                    'matricula': limpiar_valor(row.get('Matricula', '')),
+                                    'fecha_ingreso': fecha_ingreso if pd.notnull(fecha_ingreso) else None,
+                                    'usuario': usuario_obj,
+                                }
+                            )
+                    except Exception as e:
+                        print(f"Error al importar legajo {row['Legajo']}: {e}")
 
                 messages.success(request, "Archivo procesado correctamente.")
             except Exception as e:
-                messages.error(request, f"Error al procesar el archivo: {e}")
+                messages.error(request, f"Error general al procesar el archivo: {e}")
         else:
             messages.error(request, "Formulario inválido.")
     else:
