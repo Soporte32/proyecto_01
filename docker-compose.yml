@@ -22,7 +22,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
 
     # Se quito la sección "ports" por no es necesario exponerlo al host cuando NGINX lo consume dentro de la red interna de docker
-  
+    mem_limit: 1g
     environment:
       - DEBUG=False
       - UID=${UID:-1000}
@@ -49,6 +49,7 @@ services:
     volumes:
       - ./:/app
       - /etc/localtime:/etc/localtime:ro
+    mem_limit: 1g
     environment:
       - DEBUG=False
       - UID=${UID:-1000}
