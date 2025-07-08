@@ -125,6 +125,8 @@ def limpiar_valor(valor):
         return ""
     return str(valor).strip()
 
+import psutil, os
+
 @login_required
 def es_importar_empleados(request):
     if sin_permiso(request): return HttpResponseRedirect("/")  
@@ -138,6 +140,9 @@ def es_importar_empleados(request):
                 for _, row in df.iterrows():
                     try:
                         with transaction.atomic():
+                            mem_mb = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
+                            print(f"[{i}] RAM usada: {mem_mb:.2f} MB")
+
                             nombre = limpiar_valor(row['Nombre']).strip()
                             apellido = limpiar_valor(row['Apellido']).strip()
                             legajo_str = str(row['Legajo'])
