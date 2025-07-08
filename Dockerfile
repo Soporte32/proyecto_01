@@ -1,5 +1,8 @@
 # Imagen base
-FROM python:3.10-slim
+FROM python:3.13.5-slim-bookworm
+
+# reemplace a esta que estaba:
+# FROM python:3.10-slim
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -14,12 +17,11 @@ RUN pip install --upgrade pip
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-# no aparece gunicorn en requirements.txt porque es solo para Linux
-RUN pip install gunicorn
-RUN apt install nano
-
 # Copia el proyecto
 COPY ./ /app
+
+# no aparece gunicorn en requirements.txt porque es solo para Linux
+RUN pip install gunicorn
 
 # Expone el puerto para el servidor de desarrollo
 EXPOSE 8000

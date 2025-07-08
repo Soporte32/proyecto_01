@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Verificamos que se haya pasado un parámetro
+if [ -z "$1" ]; then
+  echo "Usar: $0 <prefijo de 2 letras>"
+  exit 1
+fi
+
+# Armamos el nombre del contenedor
+CONTENEDOR1="${1}_proyecto-postgres-1"
+CONTENEDOR2="${1}_proyecto-nginx-1"
+CONTENEDOR3="${1}_proyecto-django1-1"
+CONTENEDOR4="${1}_proyecto-django2-1"
+
+# Ejecutamos el comando
+echo "Deteniendo contenedor: $CONTENEDOR3"
+sudo docker stop "$CONTENEDOR3"
+echo "Deteniendo contenedor: $CONTENEDOR4"
+sudo docker stop "$CONTENEDOR4"
+sleep 2
+echo "Deteniendo contenedor: $CONTENEDOR1"
+sudo docker stop "$CONTENEDOR1"
+echo "Deteniendo contenedor: $CONTENEDOR2"
+sudo docker stop "$CONTENEDOR2"
+
+
+
