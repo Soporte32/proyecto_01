@@ -137,7 +137,7 @@ def es_importar_empleados(request):
             try:
                 df = pd.read_excel(file)
 
-                for _, row in df.iterrows():
+                for i, (_, row) in enumerate(df.iterrows(), start=1):
                     try:
                         with transaction.atomic():
                             mem_mb = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
