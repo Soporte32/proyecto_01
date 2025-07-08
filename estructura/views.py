@@ -125,8 +125,6 @@ def limpiar_valor(valor):
         return ""
     return str(valor).strip()
 
-import psutil, os
-
 @login_required
 def es_importar_empleados(request):
     if sin_permiso(request): return HttpResponseRedirect("/")  
