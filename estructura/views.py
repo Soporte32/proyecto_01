@@ -137,12 +137,9 @@ def es_importar_empleados(request):
             try:
                 df = pd.read_excel(file)
 
-                for i, (_, row) in enumerate(df.iterrows(), start=1):
+                for _, row in df.iterrows():
                     try:
                         with transaction.atomic():
-                            mem_mb = psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024
-                            print(f"[{i}] RAM usada: {mem_mb:.2f} MB")
-
                             nombre = limpiar_valor(row['Nombre']).strip()
                             apellido = limpiar_valor(row['Apellido']).strip()
                             legajo_str = str(row['Legajo'])

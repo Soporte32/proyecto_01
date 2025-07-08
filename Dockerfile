@@ -16,7 +16,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # no aparece gunicorn en requirements.txt porque es solo para Linux
 RUN pip install gunicorn
-RUN pip install psutil
 RUN apt install nano
 
 # Copia el proyecto
