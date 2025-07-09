@@ -5,7 +5,7 @@ from django.contrib import admin
 
 class MyAdminSite(AdminSite):
     def has_permission(self, request):
-        es_del_grupo = request.user.groups.filter(name='administrador').exists()
+        es_del_grupo = request.user.groups.filter(name='Administradores').exists()
         es_usuario_administrador = request.user.username == 'administrador'
 
         return request.user.is_active and request.user.is_authenticated and (es_del_grupo or es_usuario_administrador)
