@@ -86,14 +86,14 @@ class Dia(models.Model):
 class Prestacion(models.Model):
 
     codigo = models.CharField(max_length=50)  # Código de la prestación
-    descripcion = models.TextField(max_length=150)  # Descripción de la prestación
+    descripcion = models.TextField(max_length=1000)  # Descripción de la prestación
     honorarios = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Honorarios
     ayudante = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Ayudante
     gastos = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Gastos
     anestesia = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Anestesia
     total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # Total
     servicio = models.CharField(max_length=50) #Servicio
-    practica = models.CharField(max_length=150) #Practica
+    practica = models.CharField(max_length=150, blank=True) #Practica
     activo = models.CharField(max_length=2, choices=ACTIVO_CHOICES, default="Si")
     
     def __str__(self):
