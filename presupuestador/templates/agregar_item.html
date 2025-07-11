@@ -25,12 +25,13 @@
                 </div>
 
                 <!-- Selección de código (prestación) -->
-                <div class="form-group mb-3">
-                    <label for="prestacion">Código / Prestación</label>
-                    <select id="prestacion" name="prestacion" class="form-control" required>
-                        <option value="" disabled selected>Seleccione un código/prestación</option>
-                    </select>
-                </div>
+<!-- Buscador de prestación -->
+<div class="form-group mb-3 position-relative">
+    <label for="prestacion_texto">Código / Prestación</label>
+    <input type="text" id="prestacion_texto" class="form-control" placeholder="Buscar prestación..." autocomplete="off" required>
+    <input type="hidden" id="prestacion_id" name="prestacion">
+    <div id="prestacion-sugerencias" class="list-group position-absolute w-100" style="z-index: 10;"></div>
+</div>
 
                 <!-- Campo para detalle -->
                 <div class="form-group mb-3">
@@ -64,7 +65,7 @@
 
 <script>
     // Manejar la selección de servicio y cargar las prestaciones asociadas
-    const servicioSelect = document.getElementById('servicio');
+    
     const prestacionSelect = document.getElementById('prestacion');
 
     servicioSelect.addEventListener('change', function () {
@@ -109,6 +110,58 @@
             precioInput.value = 0; // asegura que se envíe 0 en el POST
         }
     });
+</script>
+<script>
+const servicioSelect = document.getElementById('servicio');
+const inputPrestacion = document.getElementById('prestacion_texto');
+const prestacionHidden = document.getElementById('prestacion_id');
+const sugerenciasDiv = document.getElementById('prestacion-sugerencias');
+const precioContainer = document.getElementById('precio-container');
+const precioInput = document.getElementById('precio');
+
+inputPrestacion.addEventListener('input', function () {
+    const texto = this.value.trim();
+    const servicio = servicioSelect.value;
+
+    sugerenciasDiv.innerHTML = '';
+
+    if (texto.length >= 2 && servicio) {
+        fetch(`/presupuestador/buscar-prestaciones/?q=${encodeURIComponent(texto)}&servicio=${encodeURIComponent(servicio)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    sugerenciasDiv.innerHTML = '<div class="list-group-item">Sin resultados</div>';
+                } else {
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('list-group-item', 'list-group-item-action');
+                        div.textContent = `${item.codigo} - ${item.descripcion}`;
+                        div.addEventListener('click', () => {
+                            inputPrestacion.value = `${item.codigo} - ${item.descripcion}`;
+                            prestacionHidden.value = item.id;
+                            sugerenciasDiv.innerHTML = '';
+
+                            if (item.codigo === '999.99.99') {
+                                precioContainer.style.display = 'block';
+                                precioInput.value = '';
+                            } else {
+                                precioContainer.style.display = 'none';
+                                precioInput.value = item.precio || '0.00';
+                            }
+                        });
+                        sugerenciasDiv.appendChild(div);
+                    });
+                }
+            });
+    }
+});
+
+// Limpieza de sugerencias si el usuario hace clic fuera
+document.addEventListener('click', function (event) {
+    if (!sugerenciasDiv.contains(event.target) && event.target !== inputPrestacion) {
+        sugerenciasDiv.innerHTML = '';
+    }
+});
 </script>
 
 

@@ -34,7 +34,8 @@ def presupuesto_nuevo(request):
             presupuesto = Presupuesto(
                 cliente=cliente,
                 documento=documento,
-                fecha=date.today()  # Fecha actual como predeterminada
+                fecha=date.today(),
+                usuario=request.user
             )
             presupuesto.save()
             # Redirige a la vista de lista de presupuestos
@@ -95,7 +96,7 @@ def agregar_item(request, presupuesto_id):
         # Aquí usamos presupuesto.numero en lugar de presupuesto.id
         return redirect('detalle_presupuesto', presupuesto_id=presupuesto.numero)
 
-    servicios = Prestacion.objects.values('servicio').distinct()
+    servicios = Prestacion.objects.values('servicio').distinct().order_by('servicio')
 
     return render(request, 'agregar_item.html', {
         'presupuesto': presupuesto,
@@ -256,3 +257,27 @@ def importar_nomenclador(request):
 
     return render(request, "importar_nomenclador.html", {"form": form})
 
+
+from django.db.models import Q
+
+@login_required
+def buscar_prestaciones(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
+    query = request.GET.get('q', '').strip()
+    servicio = request.GET.get('servicio', '').strip()
+
+    prestaciones = Prestacion.objects.filter(
+        servicio=servicio
+    ).filter(
+        Q(descripcion__icontains=query) | Q(codigo__icontains=query)
+    )[:10]
+    
+    results = [{
+        'id': p.id,
+        'codigo': p.codigo,
+        'descripcion': p.descripcion,
+        'precio': str(p.total or "0.00")
+    } for p in prestaciones]
+
+    return JsonResponse(results, safe=False)
