@@ -35,7 +35,7 @@ def presupuesto_nuevo(request):
                 cliente=cliente,
                 documento=documento,
                 fecha=date.today(),
-                usuario=request.user
+                creado_por=request.user
             )
             presupuesto.save()
             # Redirige a la vista de lista de presupuestos
@@ -83,7 +83,8 @@ def agregar_item(request, presupuesto_id):
                 presupuesto=presupuesto,
                 cantidad=cantidad,
                 detalle=detalle,
-                precio=precio
+                precio=precio,
+                creado_por=request.user
             )
 
             # Asociar el item con DetallePrestacion

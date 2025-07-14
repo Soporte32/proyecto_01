@@ -46,7 +46,7 @@
                 <td>{{ presupuesto.cliente }}</td>
                 <td>{{ presupuesto.documento }}</td>
                 <td>{{ presupuesto.fecha }}</td>
-                <td>{{ presupuesto.usuario.username }}</td>
+                <td>{{ presupuesto.creado_por.username }}</td>
                 <td>
                     <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-secondary btn-sm me-2">Detalle</a>
                     <a href="{% url 'editar_presupuesto' presupuesto.numero %}" class="btn btn-warning btn-sm">Editar</a>

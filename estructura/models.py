@@ -109,7 +109,7 @@ class Presupuesto(models.Model):
     cliente = models.CharField(max_length=255)  # Nombre del cliente
     documento = models.CharField(max_length=20)  # Documento del cliente
     fecha = models.DateField(auto_now_add=True)  # Fecha de creación del presupuesto
-    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True)
+    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return f"Presupuesto #{self.numero} - {self.cliente}"
@@ -124,6 +124,7 @@ class PresupuestoItem(models.Model):
     detalle = models.CharField(max_length=100, blank=True, default='')
     cantidad = models.PositiveIntegerField(default=0)  # Nueva cantidad
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
 
     def __str__(self):
         return f"Presupuesto {self.presupuesto.numero} - Cantidad {self.cantidad}"

@@ -84,5 +84,3 @@ services:
       - django2
     command: nginx -g 'daemon off;'
 
-volumes:
-  postgres_data:
