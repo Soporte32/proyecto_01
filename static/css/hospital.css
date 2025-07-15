@@ -1,1 +1,7 @@
 a,a:visited{color:inherit;text-decoration:none}a:hover{color:blue;text-decoration:underline;cursor:pointer}
+
+a.btn-primary:visited,
+a.btn-secondary:visited,
+a.btn-danger:visited {
+    color: #fff !important;
+}

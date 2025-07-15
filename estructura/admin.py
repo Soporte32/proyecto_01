@@ -22,35 +22,74 @@ my_admin_site.register(Empleado)
 my_admin_site.register(TipoEmpleado)
 my_admin_site.register(TipoDia)
 
-# Configuración avanzada para la administración de Presupuesto
+
 class PresupuestoAdmin(admin.ModelAdmin):
     # Columnas visibles en la lista de elementos
-    list_display = ('numero', 'cliente', 'documento', 'fecha')
-    
+    list_display = ('numero', 'cliente', 'documento', 'fecha', 'activo')
+
     # Campos que se pueden buscar
     search_fields = ('cliente', 'documento')
-    
+
     # Filtros laterales
-    list_filter = ('fecha',)
-    
+    list_filter = ('fecha', 'activo')
+
     # Orden por defecto
-    ordering = ('-fecha',)  # Orden descendente por fecha (los más recientes primero)
-    
-    # Campos que se agrupan para editar
+    ordering = ('-fecha',)
+
+    # Campos agrupados en el formulario de edición
     fieldsets = (
         ("Información General", {
             'fields': ('cliente', 'documento')
         }),
         ("Datos del Presupuesto", {
-            'fields': ('fecha',)
+            'fields': ('fecha', 'creado_por', 'eliminado_por', 'activo')
         }),
     )
 
     # Solo lectura para ciertos campos
-    readonly_fields = ('fecha',)
+    readonly_fields = ('fecha', 'creado_por', 'eliminado_por')
 
 my_admin_site.register(Presupuesto, PresupuestoAdmin)
 
+
+class PresupuestoPrestacionAdmin(admin.ModelAdmin):
+    list_display = ('presupuesto_numero', 'prestacion_descripcion', 'item_activo', 'item_creado_por', 'item_eliminado_por')
+
+    # Campos en modo solo lectura
+    def get_readonly_fields(self, request, obj=None):
+        if obj:
+            return [field.name for field in self.model._meta.fields]
+        return []
+
+    # Métodos para mostrar campos relacionados
+    def presupuesto_numero(self, obj):
+        return obj.presupuesto.numero
+    presupuesto_numero.short_description = 'Presupuesto Nº'
+
+    def prestacion_descripcion(self, obj):
+        return obj.prestacion.descripcion
+    prestacion_descripcion.short_description = 'Descripción Prestación'
+
+    def item_activo(self, obj):
+        return obj.item.activo
+    item_activo.short_description = 'Activo'
+
+    def item_creado_por(self, obj):
+        return obj.item.creado_por
+    item_creado_por.short_description = 'Creado por'
+
+    def item_eliminado_por(self, obj):
+        return obj.item.eliminado_por
+    item_eliminado_por.short_description = 'Eliminado por'
+
+    # Opcional: impedir agregar/borrar desde el admin
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+my_admin_site.register(PresupuestoPrestacion, PresupuestoPrestacionAdmin)
 
 # Configuración avanzada para la administración de Prestacion
 class PrestacionAdmin(admin.ModelAdmin):
@@ -79,17 +118,4 @@ class PrestacionAdmin(admin.ModelAdmin):
 my_admin_site.register(Prestacion, PrestacionAdmin)    
 
 
-class PresupuestoPrestacionAdmin(admin.ModelAdmin):
-    # Columnas visibles en la lista
-    list_display = ('presupuesto', 'prestacion')
-    
-    # Campos que se pueden buscar
-    search_fields = ('presupuesto__cliente', 'prestacion__descripcion')
-    
-    # Filtros laterales
-    list_filter = ('presupuesto', 'prestacion')
-    
-    # Orden por defecto
-    ordering = ('presupuesto', 'prestacion')
-
-my_admin_site.register(PresupuestoPrestacion, PresupuestoPrestacionAdmin)   
+ 

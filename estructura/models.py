@@ -109,7 +109,8 @@ class Presupuesto(models.Model):
     cliente = models.CharField(max_length=255)  # Nombre del cliente
     documento = models.CharField(max_length=20)  # Documento del cliente
     fecha = models.DateField(auto_now_add=True)  # Fecha de creación del presupuesto
-    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
+    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True, related_name='presupuestos_creados')
+    eliminado_por = models.ForeignKey(User, verbose_name='Eliminado por', on_delete=models.RESTRICT, null=True, related_name='presupuestos_eliminados')
     activo = models.CharField(max_length=1, choices=OPCIONES_ACTIVO, default='s')
 
     def __str__(self):
@@ -125,7 +126,8 @@ class PresupuestoItem(models.Model):
     detalle = models.CharField(max_length=100, blank=True, default='')
     cantidad = models.PositiveIntegerField(default=0)  # Nueva cantidad
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
+    creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True, related_name='presupuestos_items_creados')
+    eliminado_por = models.ForeignKey(User, verbose_name='Eliminado por', on_delete=models.RESTRICT, null=True, related_name='presupuestos_items_eliminados')
     activo = models.CharField(max_length=1, choices=OPCIONES_ACTIVO, default='s')
 
     def __str__(self):

@@ -53,9 +53,9 @@ def detalle_presupuestador(request):
     es_admin = request.user.is_superuser or request.user.groups.filter(name="Administradores").exists()
 
     if es_admin:
-        presupuestos = Presupuesto.objects.all()
+        presupuestos = Presupuesto.objects.all().order_by('-fecha')[:100]
     else:
-        presupuestos = Presupuesto.objects.filter(activo='s')
+        presupuestos = Presupuesto.objects.filter(activo='s').order_by('-fecha')[:100]
 
     return render(request, 'detalle_presupuestador.html', {
         'presupuestos': presupuestos,
@@ -71,6 +71,7 @@ def presupuesto_eliminar(request, presupuesto_id):
     if request.method == "POST":
         presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
         presupuesto.activo = 'n'
+        presupuesto.eliminado_por = request.user
         presupuesto.save()
         messages.success(request, "El presupuesto fue marcado como inactivo correctamente.")
     
@@ -125,21 +126,20 @@ def agregar_item(request, presupuesto_id):
 
 @login_required
 def eliminar_item(request, presupuesto_id):
-    if sin_permiso(request): return HttpResponseRedirect("/")
-        
+    if sin_permiso(request):
+        return HttpResponseRedirect("/")
+
     if request.method == "POST":
-        item_id = request.POST.get("item_id")  # Obtén el ID del ítem desde el formulario
+        item_id = request.POST.get("item_id")
         detalle = get_object_or_404(PresupuestoPrestacion, pk=item_id, presupuesto_id=presupuesto_id)
 
-        # Marca el ítem como inactivo en lugar de eliminarlo
+        # Marca el ítem como inactivo y registra quién lo eliminó
         detalle.item.activo = 'n'
+        detalle.item.eliminado_por = request.user
         detalle.item.save()
 
-
-        # Muestra un mensaje de éxito
         messages.success(request, "El ítem se eliminó correctamente.")
 
-    # Redirige al detalle del presupuesto
     return redirect("detalle_presupuesto", presupuesto_id=presupuesto_id)
 
 
