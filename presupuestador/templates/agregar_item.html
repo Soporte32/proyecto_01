@@ -30,7 +30,10 @@
     <label for="prestacion_texto">Código / Prestación</label>
     <input type="text" id="prestacion_texto" class="form-control" placeholder="Buscar prestación..." autocomplete="off" required>
     <input type="hidden" id="prestacion_id" name="prestacion">
-    <div id="prestacion-sugerencias" class="list-group position-absolute w-100" style="z-index: 10;"></div>
+    <div id="prestacion-sugerencias" 
+        class="list-group position-absolute w-100" 
+        style="z-index: 10; max-height: 200px; overflow-y: auto;">
+     </div>
 </div>
 
                 <!-- Campo para detalle -->
@@ -125,7 +128,7 @@ inputPrestacion.addEventListener('input', function () {
 
     sugerenciasDiv.innerHTML = '';
 
-    if (texto.length >= 2 && servicio) {
+    if (texto.length >= 0 && servicio) {
         fetch(`/presupuestador/buscar-prestaciones/?q=${encodeURIComponent(texto)}&servicio=${encodeURIComponent(servicio)}`)
             .then(res => res.json())
             .then(data => {

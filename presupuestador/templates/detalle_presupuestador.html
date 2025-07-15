@@ -4,6 +4,27 @@
 {% block title %}Detalle Presupuestador{% endblock %}
 
 {% block content %}
+<style>
+table.table {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+
+}
+
+table.table td, table.table th {
+    vertical-align: middle;
+}
+table.table td:not(:nth-child(2)),
+table.table th:not(:nth-child(2)) {
+    white-space: nowrap;
+
+.btn-sm {
+    padding: 0.25rem 0.4rem;
+}
+
+}
+</style>
 <div class="container mt-5">
     <h2 class="text-center">Presupuestador</h2>
     <br>
@@ -37,21 +58,35 @@
                 <th>Fecha</th>
                 <th>Creado por</th>
                 <th>Acciones</th>
+                {% if es_admin %}
+                   <th>Activo</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
             {% for presupuesto in presupuestos %}
-            <tr>
-                <td>{{ presupuesto.numero }}</td>
-                <td>{{ presupuesto.cliente }}</td>
-                <td>{{ presupuesto.documento }}</td>
-                <td>{{ presupuesto.fecha }}</td>
-                <td>{{ presupuesto.creado_por.username }}</td>
-                <td>
-                    <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-secondary btn-sm me-2">Detalle</a>
-                    <a href="{% url 'editar_presupuesto' presupuesto.numero %}" class="btn btn-warning btn-sm">Editar</a>
-                </td>
-            </tr>
+<tr>
+    <td>{{ presupuesto.numero }}</td>
+    <td>{{ presupuesto.cliente }}</td>
+    <td>{{ presupuesto.documento }}</td>
+    <td>{{ presupuesto.fecha }}</td>
+    <td>{{ presupuesto.creado_por.username }}</td>
+    <td>
+        <a href="{% url 'detalle_presupuesto' presupuesto.numero %}" class="btn btn-secondary btn-sm me-2">Detalle</a>
+        <a href="{% url 'editar_presupuesto' presupuesto.numero %}" class="btn btn-warning btn-sm me-2">Editar</a>
+        {% if es_admin %}
+        <form method="POST" action="{% url 'presupuesto_eliminar' presupuesto.numero %}" class="d-inline" onsubmit="return confirmarEliminacion();">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+        </form>
+        {% endif %}
+    </td>
+    {% if es_admin %}
+    <td class="text-center" {% if presupuesto.activo == 'n' %}style="background-color: #fff8dc; color: #000; font-weight: bold;"{% endif %}>
+        {% if presupuesto.activo == 's' %}Sí{% else %}⚠️ Inactivo{% endif %}
+    </td>
+    {% endif %}
+</tr>
             {% endfor %}
         </tbody>
     </table>
@@ -61,6 +96,18 @@
     </div>
     {% endif %}
 </div>
+<script>
+function confirmarEliminacion() {
+    const respuesta = prompt("¿Estás seguro de eliminar este presupuesto? Escribí 's' para confirmar.");
+    if (respuesta && (respuesta.toLowerCase() === 's')) {
+        return true;
+    } else {
+        alert("Acción cancelada.");
+        return false;
+    }
+}
+</script>
+
 {% endblock %}
 
 

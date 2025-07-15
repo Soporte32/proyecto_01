@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from estructura.models import Presupuesto, Prestacion, PresupuestoItem, PresupuestoPrestacion
 from datetime import date
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Q
 from django.contrib import messages
 from .forms import PresupuestoForm, ExcelUploadForm
 from decimal import Decimal, InvalidOperation
@@ -49,13 +49,32 @@ def presupuesto_nuevo(request):
 @login_required
 def detalle_presupuestador(request):
     if sin_permiso(request): return HttpResponseRedirect("/")
-        
-    presupuestos = Presupuesto.objects.all()  # Obtén todos los presupuestos
+
+    es_admin = request.user.is_superuser or request.user.groups.filter(name="Administradores").exists()
+
+    if es_admin:
+        presupuestos = Presupuesto.objects.all()
+    else:
+        presupuestos = Presupuesto.objects.filter(activo='s')
+
     return render(request, 'detalle_presupuestador.html', {
         'presupuestos': presupuestos,
-        'mostrar_volver': True  # Agrega una bandera para mostrar el botón
+        'mostrar_volver': True,
+        'es_admin': es_admin,
     })
 
+@login_required
+def presupuesto_eliminar(request, presupuesto_id):
+    if sin_permiso(request):
+        return HttpResponseRedirect("/")
+
+    if request.method == "POST":
+        presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
+        presupuesto.activo = 'n'
+        presupuesto.save()
+        messages.success(request, "El presupuesto fue marcado como inactivo correctamente.")
+    
+    return redirect("detalle_presupuestador")
 
 @login_required
 def agregar_item(request, presupuesto_id):
@@ -112,8 +131,10 @@ def eliminar_item(request, presupuesto_id):
         item_id = request.POST.get("item_id")  # Obtén el ID del ítem desde el formulario
         detalle = get_object_or_404(PresupuestoPrestacion, pk=item_id, presupuesto_id=presupuesto_id)
 
-        # Elimina el ítem
-        detalle.delete()
+        # Marca el ítem como inactivo en lugar de eliminarlo
+        detalle.item.activo = 'n'
+        detalle.item.save()
+
 
         # Muestra un mensaje de éxito
         messages.success(request, "El ítem se eliminó correctamente.")
@@ -121,34 +142,52 @@ def eliminar_item(request, presupuesto_id):
     # Redirige al detalle del presupuesto
     return redirect("detalle_presupuesto", presupuesto_id=presupuesto_id)
 
+
 @login_required
 def detalle_presupuesto(request, presupuesto_id):
-    if sin_permiso(request): return HttpResponseRedirect("/")
+    if sin_permiso(request):
+        return HttpResponseRedirect("/")
 
-    # Obtiene el presupuesto o lanza un error 404 si no existe
     presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
-    
-    # Obtiene los detalles del presupuesto, optimizando con select_related
-    detalles = PresupuestoPrestacion.objects.filter(presupuesto=presupuesto).select_related('prestacion', 'item')
+    es_admin = request.user.is_superuser or request.user.groups.filter(name="Administradores").exists()
 
-    # Añadir el total de cada línea al queryset
+    # Filtrar ítems según permisos
+    if es_admin:
+        detalles = PresupuestoPrestacion.objects.filter(
+            presupuesto=presupuesto
+        ).select_related('prestacion', 'item')
+    else:
+        detalles = PresupuestoPrestacion.objects.filter(
+            presupuesto=presupuesto,
+            item__activo='s'
+        ).select_related('prestacion', 'item')
+
+    # Calcular total_linea para cada detalle
+    contador = 1
     for detalle in detalles:
         detalle.total_linea = detalle.item.cantidad * detalle.item.precio
-        
-    # Calcula el total general usando anotaciones
-    total_general = detalles.aggregate(
+        if detalle.item.activo == 's':
+            detalle.numero_visible = contador
+            contador += 1
+        else:
+            detalle.numero_visible = ''
+
+    # Calcular total general solo con ítems activos
+    total_general = PresupuestoPrestacion.objects.filter(
+        presupuesto=presupuesto,
+        item__activo='s'
+    ).aggregate(
         total=Sum(F('item__cantidad') * F('item__precio'))
     )['total'] or 0
 
-    # Bandera para saber si estamos en modo edición (se puede activar desde la URL)
     modo_edicion = request.GET.get('modo_edicion') == 'true'
 
-    # Renderiza la plantilla con los datos necesarios
     return render(request, 'detalle_presupuesto.html', {
         'presupuesto': presupuesto,
         'detalles': detalles,
         'total_general': total_general,
-        'modo_edicion': modo_edicion  # Determina si se muestran acciones de edición
+        'modo_edicion': modo_edicion,
+        'es_admin': es_admin,
     })
 
 @login_required

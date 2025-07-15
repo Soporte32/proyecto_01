@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 sexos = (('F','Femenino'),('M','Masculino'))
 si_o_no = (('S','Sí'),('N','No'))
 ACTIVO_CHOICES = [("Si", "Si"),("No", "No"),]
-
+OPCIONES_ACTIVO = [('s', 'Sí'), ('n', 'No'),]
 
 class TipoEmpleado(models.Model):
     nombre = models.CharField(max_length=20, choices=[('SAMIC', 'SAMIC'),('Formenti', 'Formenti'),('Residente', 'Residente'),], blank=False, null=False)  
@@ -110,6 +110,7 @@ class Presupuesto(models.Model):
     documento = models.CharField(max_length=20)  # Documento del cliente
     fecha = models.DateField(auto_now_add=True)  # Fecha de creación del presupuesto
     creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
+    activo = models.CharField(max_length=1, choices=OPCIONES_ACTIVO, default='s')
 
     def __str__(self):
         return f"Presupuesto #{self.numero} - {self.cliente}"
@@ -125,6 +126,7 @@ class PresupuestoItem(models.Model):
     cantidad = models.PositiveIntegerField(default=0)  # Nueva cantidad
     precio = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     creado_por = models.ForeignKey(User, verbose_name='Creado por', on_delete=models.RESTRICT, null=True)
+    activo = models.CharField(max_length=1, choices=OPCIONES_ACTIVO, default='s')
 
     def __str__(self):
         return f"Presupuesto {self.presupuesto.numero} - Cantidad {self.cantidad}"
