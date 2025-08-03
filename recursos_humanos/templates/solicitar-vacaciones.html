@@ -1,0 +1,49 @@
+{% extends 'es-nav.html' %}
+{% block title %}Solicitud de Vacaciones{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center">Solicitud de Vacaciones</h2>
+
+  {% if success_message %}
+    <div class="mt-5 alert alert-success text-center" role="alert">
+      {{ success_message }}
+      <a href="{% url 'rh-inicio' %}" class="btn btn-success mt-3 ms-3">Ir al inicio</a>
+    </div>
+  {% else %}
+  <p class="text-muted text-center">Completá las fechas para solicitar tus vacaciones</p>
+  {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <form method="post" class="mt-4 mx-auto" style="max-width: 500px;">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_fecha_desde" class="form-label">Fecha Desde</label>
+        <input type="date" name="fecha_desde" id="id_fecha_desde" class="form-control"
+               value="{{ form.fecha_desde.value|default_if_none:'' }}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_fecha_hasta" class="form-label">Fecha Hasta</label>
+        <input type="date" name="fecha_hasta" id="id_fecha_hasta" class="form-control"
+               value="{{ form.fecha_hasta.value|default_if_none:'' }}" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Solicitar</button>
+    </form>
+  {% endif %}
+</div>
+{% endblock %}

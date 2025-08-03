@@ -52,6 +52,23 @@ class Empleado(models.Model):
         db_table='empleados'
         ordering=['apellido','nombre']
 
+# -----------------------------------------------------------------------------------------------
+#      R E C U R S O S  H U M A N O S
+# -----------------------------------------------------------------------------------------------
+
+class SolicitudVacaciones(models.Model):
+    fecha_solicitud = models.DateField(verbose_name='Fecha solicitud', blank=False, null=False) 
+    empleado= models.ForeignKey("Empleado", verbose_name='Empleado', on_delete=models.RESTRICT, null=False)
+    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True)
+    fecha_desde = models.DateField(verbose_name='Fecha desde', blank=False, null=False)  
+    fecha_hasta = models.DateField(verbose_name='Fecha hasta', blank=False, null=False)
+    estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizado_sector', 'Autorizado Sector'),('autorizado_rrhh', 'Autorizado RRHH'),], blank=False, null=False)
+
+    class Meta:
+        verbose_name='Solicitud de Vacaciones'
+        verbose_name_plural='Solicitudes de Vacaciones'
+        db_table='solicitud_vacaciones'
+
 
 class TipoDia(models.Model):
     nombre = models.CharField(max_length=20, choices=[('habil', 'Hábil'),('inhabil', 'Inhábil'),('feriado', 'Feriado'),('no_laborable', 'No Laborable'),], blank=False, null=False)   
@@ -82,6 +99,10 @@ class Dia(models.Model):
         db_table='dias'
         ordering=['fecha_invertida']
 
+
+# -----------------------------------------------------------------------------------------------
+#      P R E S U P U E S T O S
+# -----------------------------------------------------------------------------------------------
 
 class Prestacion(models.Model):
 

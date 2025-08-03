@@ -1,6 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+from estructura.models import Empleado
+from .forms import SolicitudVacacionesForm
+from datetime import date
 
 
 @login_required
@@ -10,3 +13,31 @@ def rh_inicio(request):
         return HttpResponseRedirect("/")
     return render(request, 'rh-inicio.html')
 	
+
+@login_required
+def solicitar_vacaciones(request):
+    usuario = request.user
+    try:
+        empleado = Empleado.objects.get(usuario=usuario)
+    except Empleado.DoesNotExist:
+        return redirect("/")  # o mostrar un error
+
+    if request.method == 'POST':
+        form = SolicitudVacacionesForm(request.POST)
+        if form.is_valid():
+            solicitud = form.save(commit=False)
+            solicitud.usuario = usuario
+            solicitud.empleado = empleado
+            solicitud.fecha_solicitud = date.today()
+            solicitud.estado = 'pendiente'
+            solicitud.save()
+            
+            success_message = "Su solicitud fue generada y está pendiente de autorizar por el responsable de su sector."
+            return render(request, 'solicitar-vacaciones.html', {
+                'form': SolicitudVacacionesForm(),  # limpiar formulario
+                'success_message': success_message
+            })
+    else:
+        form = SolicitudVacacionesForm()
+
+    return render(request, 'solicitar-vacaciones.html', {'form': form})
