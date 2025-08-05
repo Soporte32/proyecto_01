@@ -59,13 +59,28 @@ class Empleado(models.Model):
 #      R E C U R S O S  H U M A N O S
 # -----------------------------------------------------------------------------------------------
 
+class Horarios_Horas_Samic(models.Model):
+    hora = models.TimeField(unique=True)
+    activo = models.CharField(max_length=1, choices=OPCIONES_ACTIVO, default='s')
+
+    def __str__(self):
+        return self.hora.strftime("%H:%M")
+    
+    class Meta:
+        verbose_name='Horario para Horas Samic'
+        verbose_name_plural='Horarios para Horas Samic'
+        db_table='horarios_horas_samic'    
+
+
 class SolicitudHorasSamic(models.Model):
     fecha_solicitud = models.DateField(verbose_name='Fecha solicitud', blank=False, null=False) 
     empleado= models.ForeignKey("Empleado", verbose_name='Empleado', on_delete=models.RESTRICT, null=False)
     usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_usuario')
-    fecha_hora_desde = models.DateTimeField(verbose_name='Fecha-Hora desde', blank=False, null=False)
-    fecha_hora_hasta = models.DateTimeField(verbose_name='Fecha-Hora hasta', blank=False, null=False)
-    
+    fecha = models.DateField(verbose_name='Fecha', blank=False, null=False)
+    hora_desde = models.ForeignKey(Horarios_Horas_Samic, verbose_name='Hora desde', on_delete=models.RESTRICT, related_name='solicitudhorassamic_desde', null=False)
+    hora_hasta = models.ForeignKey(Horarios_Horas_Samic, verbose_name='Hora hasta', on_delete=models.RESTRICT, related_name='solicitudhorassamic_hasta', null=False)
+    minutos_solicitados = models.IntegerField(verbose_name='Minutos solicitados', default=0)
+
     estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizado', 'Autorizado'),('rechazado', 'Rechazado'),('realizado', 'Realizado'),('anulado', 'Anulado'),], blank=False, null=False)
 
     autorizante = models.ForeignKey(User, verbose_name='Autorizante', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_autorizante')
