@@ -22,7 +22,7 @@ class Empleado(models.Model):
     legajo = models.PositiveIntegerField(verbose_name='Legajo', blank=False, null=False)
     nombre =  models.CharField(max_length=254, verbose_name='Nombres', blank=False, null=False)
     apellido =  models.CharField(max_length=254, verbose_name='Apellidos', blank=False, null=False)
-    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True)
+    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True, related_name='empleado_usuario')
 
     dni = models.PositiveIntegerField(verbose_name='DNI', blank=False, null=False)
     cuil = models.CharField(max_length=13, verbose_name='CUIL', blank=False, null=False)
@@ -33,7 +33,10 @@ class Empleado(models.Model):
 
     tipo_empleado = models.ForeignKey("TipoEmpleado", verbose_name='Tipo', on_delete=models.RESTRICT, null=True)
     matricula = models.CharField(max_length=20, verbose_name='Matrícula', blank=True, null=True)   
-    fecha_ingreso = models.DateField(verbose_name='Fecha de Ingreso', blank=True, null=True)    
+    fecha_ingreso = models.DateField(verbose_name='Fecha de Ingreso', blank=True, null=True)
+
+    autorizante1 = models.ForeignKey(User, verbose_name='Autorizante 1', on_delete=models.RESTRICT, null=True, related_name='empleado_autorizante1')
+    autorizante2 = models.ForeignKey(User, verbose_name='Autorizante 2', on_delete=models.RESTRICT, null=True, related_name='empleado_autorizante2')
 
   #  sexo = models.CharField(max_length=1, choices=sexos, verbose_name='Sexos', default='F')
   
@@ -56,18 +59,22 @@ class Empleado(models.Model):
 #      R E C U R S O S  H U M A N O S
 # -----------------------------------------------------------------------------------------------
 
-class SolicitudVacaciones(models.Model):
+class SolicitudHorasSamic(models.Model):
     fecha_solicitud = models.DateField(verbose_name='Fecha solicitud', blank=False, null=False) 
     empleado= models.ForeignKey("Empleado", verbose_name='Empleado', on_delete=models.RESTRICT, null=False)
-    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True)
-    fecha_desde = models.DateField(verbose_name='Fecha desde', blank=False, null=False)  
-    fecha_hasta = models.DateField(verbose_name='Fecha hasta', blank=False, null=False)
-    estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizado_sector', 'Autorizado Sector'),('autorizado_rrhh', 'Autorizado RRHH'),], blank=False, null=False)
+    usuario = models.ForeignKey(User, verbose_name='Usuario', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_usuario')
+    fecha_hora_desde = models.DateTimeField(verbose_name='Fecha-Hora desde', blank=False, null=False)
+    fecha_hora_hasta = models.DateTimeField(verbose_name='Fecha-Hora hasta', blank=False, null=False)
+    
+    estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizado', 'Autorizado'),('rechazado', 'Rechazado'),('realizado', 'Realizado'),('anulado', 'Anulado'),], blank=False, null=False)
+
+    autorizante = models.ForeignKey(User, verbose_name='Autorizante', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_autorizante')
+    finalizo = models.ForeignKey(User, verbose_name='Finalizó', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_finalizo')
 
     class Meta:
-        verbose_name='Solicitud de Vacaciones'
-        verbose_name_plural='Solicitudes de Vacaciones'
-        db_table='solicitud_vacaciones'
+        verbose_name='Solicitud de Horas Samic'
+        verbose_name_plural='Solicitudes de Horas Samic'
+        db_table='solicitudes_horas_samic'
 
 
 class TipoDia(models.Model):

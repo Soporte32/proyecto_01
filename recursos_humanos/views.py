@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from estructura.models import Empleado
-from .forms import SolicitudVacacionesForm
+from .forms import SolicitudHorasSamicForm
 from datetime import date
 
 
@@ -15,7 +15,7 @@ def rh_inicio(request):
 	
 
 @login_required
-def solicitar_vacaciones(request):
+def solicitar_horas_samic(request):
     usuario = request.user
     try:
         empleado = Empleado.objects.get(usuario=usuario)
@@ -23,7 +23,7 @@ def solicitar_vacaciones(request):
         return redirect("/")  # o mostrar un error
 
     if request.method == 'POST':
-        form = SolicitudVacacionesForm(request.POST)
+        form = SolicitudHorasSamicForm(request.POST)
         if form.is_valid():
             solicitud = form.save(commit=False)
             solicitud.usuario = usuario
@@ -33,11 +33,11 @@ def solicitar_vacaciones(request):
             solicitud.save()
             
             success_message = "Su solicitud fue generada y está pendiente de autorizar por el responsable de su sector."
-            return render(request, 'solicitar-vacaciones.html', {
-                'form': SolicitudVacacionesForm(),  # limpiar formulario
+            return render(request, 'solicitar-horas-samic.html', {
+                'form': SolicitudHorasSamicForm(),  # limpiar formulario
                 'success_message': success_message
             })
     else:
-        form = SolicitudVacacionesForm()
+        form = SolicitudHorasSamicForm()
 
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
+    return render(request, 'solicitar-horas-samic.html', {'form': form})

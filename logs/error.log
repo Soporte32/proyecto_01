@@ -1,4 +1,4 @@
-Internal Server Error: /presupuestador/presupuesto/1/detalle/
+Internal Server Error: /recursoshumanos/solicitar-horas-samic/
 Traceback (most recent call last):
   File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
@@ -6,156 +6,26 @@ Traceback (most recent call last):
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
-    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
-                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
-"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
-Internal Server Error: /presupuestador/presupuesto/1/detalle/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
-    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
-                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
-"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
-Internal Server Error: /presupuestador/presupuesto/1/detalle/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
-    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
-                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
-"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71423
-Internal Server Error: /presupuestador/presupuesto/1/detalle/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 120, in detalle_presupuesto
-    detalle.total_linea = detalle.item.cantidad * detalle.item.precio
-                          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-TypeError: unsupported operand type(s) for *: 'int' and 'NoneType'
-"GET /presupuestador/presupuesto/1/detalle/ HTTP/1.1" 500 71347
-Internal Server Error: /presupuestador/detalle_presupuestador/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-psycopg2.errors.UndefinedColumn: no existe la columna presupuestos.activo
-LINE 1: ...puestos"."fecha", "presupuestos"."creado_por_id", "presupues...
-                                                             ^
-
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 54, in detalle_presupuestador
-    return render(request, 'detalle_presupuestador.html', {
-        'presupuestos': presupuestos,
-        'mostrar_volver': True  # Agrega una bandera para mostrar el botón
-    })
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
-    return template.render(context, request)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 107, in render
-    return self.template.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 171, in render
-    return self._render(context)
-           ~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 163, in _render
-    return self.nodelist.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 159, in render
-    return compiled_parent._render(context)
-           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 163, in _render
-    return self.nodelist.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 65, in render
-    result = block.nodelist.render(context)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\defaulttags.py", line 326, in render
-    if match:
-       ^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\db\models\query.py", line 398, in __bool__
-    self._fetch_all()
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 27, in solicitar_horas_samic
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
     ~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\db\models\query.py", line 1945, in _fetch_all
-    self._result_cache = list(self._iterable_class(self))
-                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
-    results = compiler.execute_sql(
-        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
-    )
-  File "C:\virtual_h\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
-    cursor.execute(sql, params)
-    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-        sql, params, many=False, executor=self._execute
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\db\utils.py", line 91, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\virtual_h\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-django.db.utils.ProgrammingError: no existe la columna presupuestos.activo
-LINE 1: ...puestos"."fecha", "presupuestos"."creado_por_id", "presupues...
-                                                             ^
-
-"GET /presupuestador/detalle_presupuestador/ HTTP/1.1" 500 196880
-Internal Server Error: /presupuestador/detalle_presupuestador/
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\virtual_h\proyecto_01\recursos_humanos\forms.py", line 32, in clean
+    if fecha_hora_hasta <= fecha_hora_desde:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<=' not supported between instances of 'datetime.date' and 'datetime.datetime'
+"POST /recursoshumanos/solicitar-horas-samic/ HTTP/1.1" 500 91148
+Internal Server Error: /recursoshumanos/solicitar-horas-samic/
 Traceback (most recent call last):
   File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
@@ -163,85 +33,26 @@ Traceback (most recent call last):
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\presupuestador\views.py", line 57, in detalle_presupuestador
-    return render(request, 'detalle_presupuestador.html', {
-        'presupuestos': presupuestos,
-        'mostrar_volver': True,
-        'es_admin': es_admin,
-    })
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
-    return template.render(context, request)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 107, in render
-    return self.template.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 171, in render
-    return self._render(context)
-           ~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 163, in _render
-    return self.nodelist.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 159, in render
-    return compiled_parent._render(context)
-           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 163, in _render
-    return self.nodelist.render(context)
-           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 65, in render
-    result = block.nodelist.render(context)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\defaulttags.py", line 327, in render
-    return nodelist.render(context)
-           ~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\defaulttags.py", line 243, in render
-    nodelist.append(node.render_annotated(context))
-                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\defaulttags.py", line 327, in render
-    return nodelist.render(context)
-           ~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 1016, in render
-    return SafeString("".join([node.render_annotated(context) for node in self]))
-                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 977, in render_annotated
-    return self.render(context)
-           ~~~~~~~~~~~^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\defaulttags.py", line 480, in render
-    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
-  File "C:\virtual_h\Lib\site-packages\django\urls\base.py", line 98, in reverse
-    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
-    raise NoReverseMatch(msg)
-django.urls.exceptions.NoReverseMatch: Reverse for 'presupuesto_eliminar' not found. 'presupuesto_eliminar' is not a valid view function or pattern name.
-"GET /presupuestador/detalle_presupuestador/ HTTP/1.1" 500 197441
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 27, in solicitar_horas_samic
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\virtual_h\proyecto_01\recursos_humanos\forms.py", line 32, in clean
+    if fecha_hora_desde <= now:
+       ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: can't compare offset-naive and offset-aware datetimes
+"POST /recursoshumanos/solicitar-horas-samic/ HTTP/1.1" 500 91203
+Internal Server Error: /recursoshumanos/solicitar-horas-samic/
 Traceback (most recent call last):
   File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
@@ -249,365 +60,22 @@ Traceback (most recent call last):
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
   File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar_vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 19, in get_template
-    raise TemplateDoesNotExist(template_name, chain=chain)
-django.template.exceptions.TemplateDoesNotExist: solicitar_vacaciones.html
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 85128
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 177, in get_template
-    template, origin = self.find_template(template_name)
-                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-        contents,
-    ...<2 lines>...
-        self.engine,
-    )
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 154, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
-    nodelist = parser.parse(("endblock",))
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 489, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 487, in parse
-    filter_expression = self.compile_filter(token.contents)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 609, in compile_filter
-    return FilterExpression(token, self)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 705, in __init__
-    filter_func = parser.find_filter(filter_name)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 615, in find_filter
-    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
-django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 183881
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 177, in get_template
-    template, origin = self.find_template(template_name)
-                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-        contents,
-    ...<2 lines>...
-        self.engine,
-    )
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 154, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
-    nodelist = parser.parse(("endblock",))
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 489, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 487, in parse
-    filter_expression = self.compile_filter(token.contents)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 609, in compile_filter
-    return FilterExpression(token, self)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 705, in __init__
-    filter_func = parser.find_filter(filter_name)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 615, in find_filter
-    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
-django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 184221
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 177, in get_template
-    template, origin = self.find_template(template_name)
-                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-        contents,
-    ...<2 lines>...
-        self.engine,
-    )
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 154, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
-    nodelist = parser.parse(("endblock",))
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 489, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 487, in parse
-    filter_expression = self.compile_filter(token.contents)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 609, in compile_filter
-    return FilterExpression(token, self)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 705, in __init__
-    filter_func = parser.find_filter(filter_name)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 615, in find_filter
-    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
-django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 184221
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 177, in get_template
-    template, origin = self.find_template(template_name)
-                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-        contents,
-    ...<2 lines>...
-        self.engine,
-    )
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 154, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
-    nodelist = parser.parse(("endblock",))
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 489, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 487, in parse
-    filter_expression = self.compile_filter(token.contents)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 609, in compile_filter
-    return FilterExpression(token, self)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 705, in __init__
-    filter_func = parser.find_filter(filter_name)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 615, in find_filter
-    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
-django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 184221
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 38, in solicitar_vacaciones
-    return render(request, 'solicitar-vacaciones.html', {'form': form})
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 177, in get_template
-    template, origin = self.find_template(template_name)
-                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-  File "C:\virtual_h\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-        contents,
-    ...<2 lines>...
-        self.engine,
-    )
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 154, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 196, in compile_nodelist
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 299, in do_extends
-    nodelist = parser.parse()
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 518, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 516, in parse
-    compiled_result = compile_func(self, token)
-  File "C:\virtual_h\Lib\site-packages\django\template\loader_tags.py", line 234, in do_block
-    nodelist = parser.parse(("endblock",))
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 489, in parse
-    raise self.error(token, e)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 487, in parse
-    filter_expression = self.compile_filter(token.contents)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 609, in compile_filter
-    return FilterExpression(token, self)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 705, in __init__
-    filter_func = parser.find_filter(filter_name)
-  File "C:\virtual_h\Lib\site-packages\django\template\base.py", line 615, in find_filter
-    raise TemplateSyntaxError("Invalid filter: '%s'" % filter_name)
-django.template.exceptions.TemplateSyntaxError: Invalid filter: 'add_class'
-"GET /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 184221
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 34, in solicitar_vacaciones
-    return redirect('menu_rrhh')  # redirigir al menú o página de confirmación
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 51, in redirect
-    resolve_url(to, *args, **kwargs),
-    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 184, in resolve_url
-    return reverse(to, args=args, kwargs=kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\urls\base.py", line 98, in reverse
-    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
-    raise NoReverseMatch(msg)
-django.urls.exceptions.NoReverseMatch: Reverse for 'menu_rrhh' not found. 'menu_rrhh' is not a valid view function or pattern name.
-"POST /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 89886
-Internal Server Error: /recursoshumanos/solicitar-vacaciones/
-Traceback (most recent call last):
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 34, in solicitar_vacaciones
-    return redirect('rh_inicio')  # redirigir al menú o página de confirmación
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 51, in redirect
-    resolve_url(to, *args, **kwargs),
-    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-  File "C:\virtual_h\Lib\site-packages\django\shortcuts.py", line 184, in resolve_url
-    return reverse(to, args=args, kwargs=kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\urls\base.py", line 98, in reverse
-    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
-  File "C:\virtual_h\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
-    raise NoReverseMatch(msg)
-django.urls.exceptions.NoReverseMatch: Reverse for 'rh_inicio' not found. 'rh_inicio' is not a valid view function or pattern name.
-"POST /recursoshumanos/solicitar-vacaciones/ HTTP/1.1" 500 89886
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 27, in solicitar_horas_samic
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\virtual_h\proyecto_01\recursos_humanos\forms.py", line 32, in clean
+    now = timezone.now()
+          ^^^^^^^^^^^^
+AttributeError: type object 'datetime.timezone' has no attribute 'now'
+"POST /recursoshumanos/solicitar-horas-samic/ HTTP/1.1" 500 91071
