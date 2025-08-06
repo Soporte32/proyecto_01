@@ -23,7 +23,10 @@ def solicitar_horas_samic(request):
     success_message = None
 
     if request.method == 'POST':
-        form = SolicitudHorasSamicForm(request.POST)
+        form = SolicitudHorasSamicForm(
+            request.POST,
+            initial={'usuario': usuario, 'empleado': empleado}
+        )
         if form.is_valid():
             solicitud = form.save(commit=False)
             solicitud.usuario = usuario
@@ -45,9 +48,9 @@ def solicitar_horas_samic(request):
                 "Su solicitud fue generada y está pendiente de autorizar "
                 "por el responsable de su sector."
             )
-            form = SolicitudHorasSamicForm()  # reiniciar formulario limpio
+            form = SolicitudHorasSamicForm(initial={'usuario': usuario, 'empleado': empleado})
     else:
-        form = SolicitudHorasSamicForm()
+        form = SolicitudHorasSamicForm(initial={'usuario': usuario, 'empleado': empleado})
 
     return render(request, 'solicitar-horas-samic.html', {
         'form': form,

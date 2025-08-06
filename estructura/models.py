@@ -81,10 +81,10 @@ class SolicitudHorasSamic(models.Model):
     hora_hasta = models.ForeignKey(Horarios_Horas_Samic, verbose_name='Hora hasta', on_delete=models.RESTRICT, related_name='solicitudhorassamic_hasta', null=False)
     minutos_solicitados = models.IntegerField(verbose_name='Minutos solicitados', default=0)
 
-    estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizado', 'Autorizado'),('rechazado', 'Rechazado'),('realizado', 'Realizado'),('anulado', 'Anulado'),], blank=False, null=False)
+    estado = models.CharField(max_length=20, choices=[('pendiente', 'Pendiente'),('autorizada', 'Autorizada'),('rechazada', 'Rechazada'),('anulada', 'Anulada'),], blank=False, null=False)
 
     autorizante = models.ForeignKey(User, verbose_name='Autorizante', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_autorizante')
-    finalizo = models.ForeignKey(User, verbose_name='Finalizó', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_finalizo')
+    anulo = models.ForeignKey(User, verbose_name='Anuló', on_delete=models.RESTRICT, null=True, related_name='solicitudhorassamic_anulo')
 
     class Meta:
         verbose_name='Solicitud de Horas Samic'
