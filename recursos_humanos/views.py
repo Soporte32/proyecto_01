@@ -3,8 +3,13 @@ from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from estructura.models import Empleado, SolicitudHorasSamic
-from .forms import SolicitudHorasSamicForm
+from .forms import SolicitudHorasSamicForm, AnulacionHorasSamicForm
 from datetime import date, datetime
+from django.contrib import messages
+
+def sin_permiso(request):
+    usuario = request.user
+    return not usuario.groups.filter(name__in=['Administradores']).exists()
 
 def sin_permiso_rrhh(request):
     usuario = request.user
@@ -106,3 +111,40 @@ def accion_horas_samic(request, solicitud_id):
 
     return redirect('autorizar-horas-samic')
 
+
+@login_required
+def anular_solicitudes_form(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
+    solicitudes = []
+    if request.method == 'POST':
+        form = AnulacionHorasSamicForm(request.POST)
+        if form.is_valid():
+            empleado = form.cleaned_data['empleado']
+            fecha_desde = form.cleaned_data['fecha_desde']
+            solicitudes = SolicitudHorasSamic.objects.filter(
+                empleado=empleado,
+                fecha__gte=fecha_desde,
+                estado='autorizada'
+            )
+    else:
+        form = AnulacionHorasSamicForm()
+
+    return render(request, 'anular-horas-samic.html', {'form': form, 'solicitudes': solicitudes})
+
+@require_POST
+@login_required
+def accion_anular_horas_samic(request, solicitud_id):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
+    usuario = request.user
+
+    solicitud = get_object_or_404(SolicitudHorasSamic, id=solicitud_id)
+
+    if solicitud.estado == "autorizada":
+        solicitud.estado = "anulada"
+        solicitud.anulo = usuario
+        solicitud.save()
+        messages.success(request, f"La solicitud del {solicitud.fecha} fue anulada correctamente.")
+
+    return redirect('anular-horas-samic')

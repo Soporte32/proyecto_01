@@ -1,0 +1,69 @@
+{% extends 'rh-nav.html' %}
+{% block title %}Anular Horas Samic{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Anulación de Horas Samic</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success alert-dismissible fade show mt-5 pt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="mb-4 mt-5 py-4">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <div class="col-md-6">
+        {{ form.empleado.label_tag }}
+        {{ form.empleado }}
+      </div>
+      <div class="col-md-6">
+        {{ form.fecha_desde.label_tag }}
+        {{ form.fecha_desde }}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Filtrar Solicitudes</button>
+  </form>
+
+  {% if solicitudes %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Empleado</th>
+          <th>Fecha</th>
+          <th>Hora Desde</th>
+          <th>Hora Hasta</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for solicitud in solicitudes %}
+        <tr>
+          <td>{{ solicitud.empleado.nombre_completo }}</td>
+          <td>{{ solicitud.fecha }}</td>
+          <td>{{ solicitud.hora_desde }}</td>
+          <td>{{ solicitud.hora_hasta }}</td>
+          <td>{{ solicitud.estado }}</td>
+          <td>
+            <form method="post" action="{% url 'accion-anular-horas-samic' solicitud.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('¿Está seguro que quiere ANULAR esta solicitud?')">Anular</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% elif form.is_bound %}
+    <div class="alert alert-info mt-4">
+      No hay solicitudes autorizadas para ese usuario y fecha.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

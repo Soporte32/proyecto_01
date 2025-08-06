@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.db.models import Sum, Count
-from estructura.models import SolicitudHorasSamic, Horarios_Horas_Samic
+from estructura.models import SolicitudHorasSamic, Horarios_Horas_Samic, Empleado
 
 class SolicitudHorasSamicForm(forms.ModelForm):
     class Meta:
@@ -99,3 +99,9 @@ class SolicitudHorasSamicForm(forms.ModelForm):
                 raise forms.ValidationError("No puede realizar más de 4 solicitudes en el mismo mes.")
 
         return cleaned_data
+
+
+class AnulacionHorasSamicForm(forms.Form):
+    empleado = forms.ModelChoiceField(queryset=Empleado.objects.all(), required=True, label="Empleado")
+    fecha_desde = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True, label="Fecha desde")
+

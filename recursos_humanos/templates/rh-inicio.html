@@ -1,4 +1,4 @@
-{% extends 'es-nav.html' %}
+{% extends 'rh-nav.html' %}
 {% block title %}Recursos Humanos{% endblock %}
 {% load static %}
 
@@ -21,9 +21,9 @@
             <div class="card-body d-flex justify-content-end mt-2 pb-1"><a href="{% url 'autorizar-horas-samic' %}" target="_blank"><div class="btn btn-outline-dark fw-bold">&rarr;&nbsp;&nbsp;Ir a página</div></a></div>
             </div>
             {% endif %}
-            <div class="card p-3 border-dark shadow mx-auto" style="max-width: 300px;"><h5 class="card-title text-center text-dark"><a href="recursoshumanos/rh-inicio" target="_blank">Disponible</a></h5>
-            <a href="recursoshumanos/rh-inicio" target="_blank"><img src="{% static 'images/disponible-3.png' %}" class="card-img-top mx-auto d-block mt-3" alt="Imagen" style="width: 80px; height: 80px;"></a>
-            <div class="card-body d-flex justify-content-end mt-2 pb-1"><a href="recursoshumanos/rh-inicio" target="_blank"><div class="btn btn-outline-dark fw-bold">&rarr;&nbsp;&nbsp;Ir a página</div></a></div>
+            <div class="card p-3 border-dark shadow mx-auto" style="max-width: 300px;"><h5 class="card-title text-center text-dark"><a href="{% url 'anular-horas-samic' %}" target="_blank">Anular Horas Samic</a></h5>
+            <a href="{% url 'anular-horas-samic' %}" target="_blank"><img src="{% static 'images/horassamic-1.png' %}" class="card-img-top mx-auto d-block mt-3" alt="Imagen" style="width: 80px; height: 80px;"></a>
+            <div class="card-body d-flex justify-content-end mt-2 pb-1"><a href="{% url 'anular-horas-samic' %}" target="_blank"><div class="btn btn-outline-dark fw-bold">&rarr;&nbsp;&nbsp;Ir a página</div></a></div>
             </div>
     </div>
     </div>    

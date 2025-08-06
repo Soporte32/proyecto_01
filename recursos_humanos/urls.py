@@ -6,5 +6,7 @@ urlpatterns = [
     path("solicitar-horas-samic/", views.solicitar_horas_samic, name="solicitar-horas-samic"),
     path('autorizar-horas-samic/', views.autorizar_horas_samic, name='autorizar-horas-samic'),
     path('accion-horas-samic/<int:solicitud_id>/', views.accion_horas_samic, name='accion-horas-samic'),
+    path('anular-horas-samic/', views.anular_solicitudes_form, name='anular-horas-samic'),
+    path('accion-anular-horas-samic/<int:solicitud_id>/', views.accion_anular_horas_samic, name='accion-anular-horas-samic'),
 
 ]
