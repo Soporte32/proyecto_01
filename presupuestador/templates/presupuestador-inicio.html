@@ -1,0 +1,25 @@
+{% extends 'es-nav.html' %}
+{% block title %}Presupuestador{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="px-4 py-5 mb-5 mt-3 text-center">
+    <img class="d-block mx-auto mb-4" src="{% static 'images/presupuesto.png' %}" alt="" width="72" height="72">
+    <h1 class="display-5 fw-bold text-body-emphasis">Presupuestador</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4 mt-4">Este es el menú del módulo de Presupuestos.<br>Por favor, seleccione la operación de desea realizar.</p>
+    </div>
+    <div class="col-12 col-lg-8 mx-auto">
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-5">
+            <div class="card p-3 border-dark shadow mx-auto" style="max-width: 300px;"><h5 class="card-title text-center text-dark"><a href="/presupuestador/detalle_presupuestador" target="_blank">Presupuestador</a></h5>
+            <a href="/presupuestador/detalle_presupuestador" target="_blank"></a><img src="{% static 'images/presupuesto.png' %}" class="card-img-top mx-auto d-block mt-3" alt="Imagen" style="width: 80px; height: 80px;"></a>
+            <div class="card-body d-flex justify-content-end mt-2 pb-1"><a href="/presupuestador/detalle_presupuestador" target="_blank"></a><div class="btn btn-outline-dark fw-bold">&rarr;&nbsp;&nbsp;Ir a página</div></a></div>
+            </div>
+            <div class="card p-3 border-dark shadow mx-auto" style="max-width: 300px;"><h5 class="card-title text-center text-dark"><a href="/presupuestador/importar_nomenclador" target="_blank">Importar Nomenclador</a></h5>
+            <a href="/presupuestador/importar_nomenclador" target="_blank"><img src="{% static 'images/upload.png' %}" class="card-img-top mx-auto d-block mt-3" alt="Imagen" style="width: 80px; height: 80px;"></a>
+            <div class="card-body d-flex justify-content-end mt-2 pb-1"><a href="/presupuestador/importar_nomenclador" target="_blank"><div class="btn btn-outline-dark fw-bold">&rarr;&nbsp;&nbsp;Ir a página</div></a></div>
+            </div>
+    </div>
+    </div>    
+</div>
+{% endblock %}

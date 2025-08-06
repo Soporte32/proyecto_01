@@ -21,6 +21,13 @@ def sin_permiso(request):
     return not usuario.groups.filter(name__in=['Administradores', 'Presupuestos']).exists()
 
 @login_required
+def presupuestador_inicio(request):
+    if sin_permiso(request): return HttpResponseRedirect("/")
+
+    return render(request, 'presupuestador-inicio.html')
+
+
+@login_required
 def presupuesto_nuevo(request):
     if sin_permiso(request): return HttpResponseRedirect("/")
 
@@ -126,8 +133,7 @@ def agregar_item(request, presupuesto_id):
 
 @login_required
 def eliminar_item(request, presupuesto_id):
-    if sin_permiso(request):
-        return HttpResponseRedirect("/")
+    if sin_permiso(request): return HttpResponseRedirect("/")
 
     if request.method == "POST":
         item_id = request.POST.get("item_id")
@@ -145,8 +151,7 @@ def eliminar_item(request, presupuesto_id):
 
 @login_required
 def detalle_presupuesto(request, presupuesto_id):
-    if sin_permiso(request):
-        return HttpResponseRedirect("/")
+    if sin_permiso(request): return HttpResponseRedirect("/")
 
     presupuesto = get_object_or_404(Presupuesto, pk=presupuesto_id)
     es_admin = request.user.is_superuser or request.user.groups.filter(name="Administradores").exists()

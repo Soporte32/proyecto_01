@@ -1,0 +1,50 @@
+{% extends 'es-nav.html' %}
+{% block title %}Solicitud de Horas Samic{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-5 pb-4">Autorizar Horas Samic</h2>
+
+  {% if solicitudes %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Fecha</th>
+          <th>Hora desde</th>
+          <th>Hora hasta</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for solicitud in solicitudes %}
+        <tr>
+          <td>{{ solicitud.empleado.nombre }}</td>
+          <td>{{ solicitud.fecha }}</td>
+          <td>{{ solicitud.hora_desde }}</td>
+          <td>{{ solicitud.hora_hasta }}</td>
+          <td>{{ solicitud.estado }}</td>
+          <td>
+            <form method="post" action="{% url 'accion-horas-samic' solicitud.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" name="accion" value="autorizar" class="btn btn-success btn-sm" onclick="return confirm('¿Está seguro que quiere autorizar esta solicitud?')">Autorizar</button>
+            </form>
+
+            <form method="post" action="{% url 'accion-horas-samic' solicitud.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" name="accion" value="rechazar" class="btn btn-danger btn-sm" onclick="return confirm('¿Está seguro que quiere rechazar esta solicitud?')">Rechazar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      Ahora no tenés ninguna solicitud pendiente de autorización.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

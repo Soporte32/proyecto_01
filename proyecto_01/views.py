@@ -13,6 +13,9 @@ def dashboard(request):
     jrrhh = False
     if usuario.groups.filter(name='Administradores').exists():
         jadministradores = True
+        jrrhh = True
+        jpresupuestos = True
+        jventas = True
     if usuario.groups.filter(name='Recursos Humanos').exists():
         jrrhh = True
     if usuario.groups.filter(name='Presupuestos').exists():

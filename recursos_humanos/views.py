@@ -1,19 +1,35 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
-from estructura.models import Empleado
+from estructura.models import Empleado, SolicitudHorasSamic
 from .forms import SolicitudHorasSamicForm
 from datetime import date, datetime
 
+def sin_permiso_rrhh(request):
+    usuario = request.user
+    return not usuario.groups.filter(name__in=['Administradores', 'Recursos Humanos']).exists()
+
+def sin_permiso_autorizante(request):
+    usuario = request.user
+    return not usuario.groups.filter(name__in=['Administradores', 'Autorizantes Licencias']).exists()
+
 @login_required
 def rh_inicio(request):
+    if sin_permiso_rrhh(request): return HttpResponseRedirect("/")
+
     usuario = request.user
-    if not usuario.groups.filter(name='Recursos Humanos').exists():
-        return HttpResponseRedirect("/")
-    return render(request, 'rh-inicio.html')
+
+    # Mostrar el segundo card si pertenece a "Autorizantes Licencias" o "Administradores"
+    ja_autorizante = usuario.groups.filter(name__in=['Autorizantes Licencias', 'Administradores']).exists()
+
+    return render(request, 'rh-inicio.html', {'ja_autorizante': ja_autorizante})
+
 
 @login_required
 def solicitar_horas_samic(request):
+    if sin_permiso_rrhh(request): return HttpResponseRedirect("/")
+
     usuario = request.user
     try:
         empleado = Empleado.objects.get(usuario=usuario)
@@ -56,3 +72,37 @@ def solicitar_horas_samic(request):
         'form': form,
         'success_message': success_message
     })
+
+@login_required
+def autorizar_horas_samic(request):
+    if sin_permiso_autorizante(request): return HttpResponseRedirect("/")
+
+    usuario = request.user
+    solicitudes = SolicitudHorasSamic.objects.filter(
+        estado="pendiente"
+    ).filter(
+        empleado__autorizante1=usuario
+    ) | SolicitudHorasSamic.objects.filter(
+        estado="pendiente",
+        empleado__autorizante2=usuario
+    )
+
+    return render(request, 'autorizar-horas-samic.html', {'solicitudes': solicitudes})
+
+@require_POST
+@login_required
+def accion_horas_samic(request, solicitud_id):
+    if sin_permiso_autorizante(request): return HttpResponseRedirect("/")
+
+    solicitud = get_object_or_404(SolicitudHorasSamic, id=solicitud_id)
+    accion = request.POST.get('accion')
+
+    if solicitud.estado == "pendiente":
+        if accion == "autorizar":
+            solicitud.estado = "autorizada"
+        elif accion == "rechazar":
+            solicitud.estado = "rechazada"
+        solicitud.save()
+
+    return redirect('autorizar-horas-samic')
+

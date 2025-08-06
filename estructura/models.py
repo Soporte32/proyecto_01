@@ -31,7 +31,7 @@ class Empleado(models.Model):
     telefono =  models.CharField(max_length=25, verbose_name='Teléfono', blank=True, null=True)
     email = models.EmailField(verbose_name='Correo Electrónico', blank=True, null=True)
 
-    tipo_empleado = models.ForeignKey("TipoEmpleado", verbose_name='Tipo', on_delete=models.RESTRICT, null=True)
+    tipo_empleado = models.ForeignKey("TipoEmpleado", verbose_name='Tipo', on_delete=models.RESTRICT, null=True, blank=True)
     matricula = models.CharField(max_length=20, verbose_name='Matrícula', blank=True, null=True)   
     fecha_ingreso = models.DateField(verbose_name='Fecha de Ingreso', blank=True, null=True)
 

@@ -128,6 +128,7 @@ def limpiar_valor(valor):
 @login_required
 def es_importar_empleados(request):
     if sin_permiso(request): return HttpResponseRedirect("/")  
+    
     if request.method == 'POST':
         form = ExcelUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -210,3 +211,4 @@ def es_importar_empleados(request):
         form = ExcelUploadForm()
 
     return render(request, 'es-importar-empleados.html', {'form': form})
+
