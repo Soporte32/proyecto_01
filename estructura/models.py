@@ -37,7 +37,7 @@ class Empleado(models.Model):
 
     autorizante1 = models.ForeignKey(User, verbose_name='Autorizante 1', on_delete=models.RESTRICT, null=True, related_name='empleado_autorizante1')
     autorizante2 = models.ForeignKey(User, verbose_name='Autorizante 2', on_delete=models.RESTRICT, null=True, related_name='empleado_autorizante2')
-
+    autorizante3 = models.ForeignKey(User, verbose_name='Autorizante 3', on_delete=models.RESTRICT, null=True, related_name='empleado_autorizante3')
   #  sexo = models.CharField(max_length=1, choices=sexos, verbose_name='Sexos', default='F')
   
     fecha_creacion = models.DateTimeField(verbose_name='Fecha de Creación', auto_now_add=True)

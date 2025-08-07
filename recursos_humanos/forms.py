@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 from django.db.models import Sum, Count
 from estructura.models import SolicitudHorasSamic, Horarios_Horas_Samic, Empleado
 
+def MaxHorasSamicMes(empleado):
+    return 300
+
 class SolicitudHorasSamicForm(forms.ModelForm):
     class Meta:
         model = SolicitudHorasSamic
@@ -55,7 +58,7 @@ class SolicitudHorasSamicForm(forms.ModelForm):
                 self.add_error('hora_hasta', "La duración no puede superar las 5 horas.")
 
             if diferencia.total_seconds() <= 0:
-                self.add_error('hora_hasta', "La hora hasta debe ser posterior a la hora desde.")
+                self.add_error('hora_hasta', "La Hora Hasta debe ser posterior a la Hora Desde.")
 
         # Validaciones adicionales
         usuario = self.initial.get('usuario')
@@ -72,7 +75,7 @@ class SolicitudHorasSamicForm(forms.ModelForm):
                 estado='pendiente'
             ).exists()
             if existe_pendiente:
-                raise forms.ValidationError("Ya existe una solicitud pendiente para este usuario.")
+                raise forms.ValidationError("Ya tenés una solicitud pendiente que todavía no te autorizaron.")
 
             # 2️⃣ Validar que no se superen los 300 minutos en el mes (excluyendo anuladas)
             total_minutos = SolicitudHorasSamic.objects.filter(
@@ -83,9 +86,11 @@ class SolicitudHorasSamicForm(forms.ModelForm):
             ).exclude(estado='anulada').aggregate(total=Sum('minutos_solicitados'))['total'] or 0
 
             if hora_desde and hora_hasta:
+                maximo_minutos = MaxHorasSamicMes(empleado)
+                maximo_horas = str(maximo_minutos / 60).rstrip('0').rstrip('.')
                 minutos_actual = int((datetime.combine(datetime.today(), hora_hasta.hora) - datetime.combine(datetime.today(), hora_desde.hora)).total_seconds() / 60)
-                if total_minutos + minutos_actual > 300:
-                    raise forms.ValidationError("No puede solicitar más de 5 horas en el mismo mes.")
+                if total_minutos + minutos_actual > maximo_minutos:
+                    raise forms.ValidationError("No podés solicitar más de " + maximo_horas + " hora(s) en el mismo mes.")
 
             # 3️⃣ Validar que no haya más de 4 solicitudes en el mes (excluyendo anuladas)
             cantidad_solicitudes = SolicitudHorasSamic.objects.filter(
@@ -96,7 +101,7 @@ class SolicitudHorasSamicForm(forms.ModelForm):
             ).exclude(estado='anulada').count()
 
             if cantidad_solicitudes >= 4:
-                raise forms.ValidationError("No puede realizar más de 4 solicitudes en el mismo mes.")
+                raise forms.ValidationError("No se puede realizar más de 4 solicitudes en el mismo mes.")
 
         return cleaned_data
 

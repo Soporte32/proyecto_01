@@ -1,0 +1,55 @@
+{% extends 'rh-nav.html' %}
+{% block title %}Mis Horas Samic{% endblock %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Mis Solicitudes de Horas Samic</h2>
+
+  <form method="get" class="mb-4">
+    <div class="row g-2 align-items-end">
+      <div class="col-auto">
+        <label for="fecha_desde" class="form-label">Fecha desde:</label>
+        <input type="date" id="fecha_desde" name="fecha_desde" class="form-control" value="{{ fecha_desde }}">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+      </div>
+    </div>
+  </form>
+
+{% if fecha_desde %}
+  {% if solicitudes %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Hora desde</th>
+          <th>Hora hasta</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for solicitud in solicitudes %}
+        <tr>
+          <td>{{ solicitud.fecha }}</td>
+          <td>{{ solicitud.hora_desde }}</td>
+          <td>{{ solicitud.hora_hasta }}</td>
+          <td>{{ solicitud.estado }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      No se encontraron solicitudes en el rango seleccionado.
+    </div>
+  {% endif %}
+{% else %}
+  <div class="alert alert-secondary" role="alert">
+    Seleccioná una fecha para ver tus solicitudes.
+  </div>
+{% endif %}
+
+</div>
+{% endblock %}

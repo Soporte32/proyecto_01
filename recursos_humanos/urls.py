@@ -8,5 +8,6 @@ urlpatterns = [
     path('accion-horas-samic/<int:solicitud_id>/', views.accion_horas_samic, name='accion-horas-samic'),
     path('anular-horas-samic/', views.anular_solicitudes_form, name='anular-horas-samic'),
     path('accion-anular-horas-samic/<int:solicitud_id>/', views.accion_anular_horas_samic, name='accion-anular-horas-samic'),
+    path('mis-horas-samic/', views.mis_horas_samic, name='mis-horas-samic'),
 
 ]

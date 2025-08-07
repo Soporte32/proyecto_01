@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from estructura.models import Empleado, SolicitudHorasSamic
 from .forms import SolicitudHorasSamicForm, AnulacionHorasSamicForm
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
+from django.utils import timezone
 from django.contrib import messages
+from django.db.models import Q
 
 def sin_permiso(request):
     usuario = request.user
@@ -78,6 +80,7 @@ def solicitar_horas_samic(request):
         'success_message': success_message
     })
 
+
 @login_required
 def autorizar_horas_samic(request):
     if sin_permiso_autorizante(request): return HttpResponseRedirect("/")
@@ -86,13 +89,13 @@ def autorizar_horas_samic(request):
     solicitudes = SolicitudHorasSamic.objects.filter(
         estado="pendiente"
     ).filter(
-        empleado__autorizante1=usuario
-    ) | SolicitudHorasSamic.objects.filter(
-        estado="pendiente",
-        empleado__autorizante2=usuario
+        Q(empleado__autorizante1=usuario) |
+        Q(empleado__autorizante2=usuario) |
+        Q(empleado__autorizante3=usuario)
     )
 
     return render(request, 'autorizar-horas-samic.html', {'solicitudes': solicitudes})
+
 
 @require_POST
 @login_required
@@ -114,7 +117,8 @@ def accion_horas_samic(request, solicitud_id):
 
 @login_required
 def anular_solicitudes_form(request):
-    if sin_permiso(request): return HttpResponseRedirect("/")
+    if sin_permiso_autorizante(request): 
+        return HttpResponseRedirect("/")
 
     solicitudes = []
     if request.method == 'POST':
@@ -127,15 +131,30 @@ def anular_solicitudes_form(request):
                 fecha__gte=fecha_desde,
                 estado='autorizada'
             )
+
+            usuario = request.user
+            if usuario.groups.filter(name="Autorizantes de Licencias").exists():
+                # Filtrar por relación de autorizante
+                solicitudes = solicitudes.filter(
+                    Q(empleado__autorizante1=usuario) |
+                    Q(empleado__autorizante2=usuario) |
+                    Q(empleado__autorizante3=usuario)
+                )
+
+                # Filtrar por fecha dentro de 4 días desde la fecha de la solicitud
+                fecha_limite = timezone.now().date() - timedelta(days=4)
+                solicitudes = solicitudes.filter(fecha__gte=fecha_limite)
+
     else:
         form = AnulacionHorasSamicForm()
 
     return render(request, 'anular-horas-samic.html', {'form': form, 'solicitudes': solicitudes})
 
+
 @require_POST
 @login_required
 def accion_anular_horas_samic(request, solicitud_id):
-    if sin_permiso(request): return HttpResponseRedirect("/")
+    if sin_permiso_autorizante(request): return HttpResponseRedirect("/")
 
     usuario = request.user
 
@@ -148,3 +167,25 @@ def accion_anular_horas_samic(request, solicitud_id):
         messages.success(request, f"La solicitud del {solicitud.fecha} fue anulada correctamente.")
 
     return redirect('anular-horas-samic')
+
+@login_required
+def mis_horas_samic(request):
+    usuario = request.user
+    fecha_desde = request.GET.get('fecha_desde')
+    solicitudes = []
+
+    if fecha_desde:
+        try:
+            fecha_obj = datetime.strptime(fecha_desde, "%Y-%m-%d").date()
+            solicitudes = SolicitudHorasSamic.objects.filter(
+                empleado__usuario=usuario,
+                fecha__gte=fecha_obj
+            ).order_by('fecha', 'hora_desde')
+        except ValueError:
+            pass  # Si la fecha no es válida, no se filtra
+
+    return render(request, 'mis-horas-samic.html', {
+        'solicitudes': solicitudes,
+        'fecha_desde': fecha_desde,
+    })
+

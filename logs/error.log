@@ -508,3 +508,56 @@ Traceback (most recent call last):
     raise NoReverseMatch(msg)
 django.urls.exceptions.NoReverseMatch: Reverse for 'autorizar_horas_samic' not found. 'autorizar_horas_samic' is not a valid view function or pattern name.
 "POST /recursoshumanos/accion-horas-samic/11/ HTTP/1.1" 500 93198
+Internal Server Error: /recursoshumanos/solicitar-horas-samic/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 51, in solicitar_horas_samic
+    if form.is_valid():
+       ~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 206, in is_valid
+    return self.is_bound and not self.errors
+                                 ^^^^^^^^^^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 201, in errors
+    self.full_clean()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 338, in full_clean
+    self._clean_form()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\virtual_h\Lib\site-packages\django\forms\forms.py", line 354, in _clean_form
+    cleaned_data = self.clean()
+  File "C:\virtual_h\proyecto_01\recursos_humanos\forms.py", line 93, in clean
+    raise forms.ValidationError("No puede solicitar más de " + maximo_horas + " horas en el mismo mes.")
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+TypeError: can only concatenate str (not "float") to str
+"POST /recursoshumanos/solicitar-horas-samic/ HTTP/1.1" 500 94099
+Internal Server Error: /recursoshumanos/autorizar-horas-samic/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 91, in autorizar_horas_samic
+    Q(empleado__autorizante1=usuario) |
+    ^
+NameError: name 'Q' is not defined
+"GET /recursoshumanos/autorizar-horas-samic/ HTTP/1.1" 500 69877
+Internal Server Error: /recursoshumanos/autorizar-horas-samic/
+Traceback (most recent call last):
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\virtual_h\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\virtual_h\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\virtual_h\proyecto_01\recursos_humanos\views.py", line 91, in autorizar_horas_samic
+    Q(empleado__autorizante1=usuario) |
+    ^
+NameError: name 'Q' is not defined
+"GET /recursoshumanos/autorizar-horas-samic/ HTTP/1.1" 500 69863
