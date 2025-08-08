@@ -93,7 +93,7 @@ class SolicitudHorasSamic(models.Model):
 
 
 class TipoDia(models.Model):
-    nombre = models.CharField(max_length=20, choices=[('habil', 'Hábil'),('inhabil', 'Inhábil'),('feriado', 'Feriado'),('no_laborable', 'No Laborable'),], blank=False, null=False)   
+    nombre = models.CharField(max_length=20, choices=[('hábil', 'Hábil'),('inhábil', 'Inhábil'),('feriado', 'Feriado'),('no_laborable', 'No Laborable'),], blank=False, null=False)   
     descripcion = models.CharField(max_length=150, verbose_name='Descripción (opcional)', blank=True, null=True)
     computa_vacaciones = models.CharField(max_length=1, choices=si_o_no, verbose_name='¿Computa Vacaciones?', default='S')
 

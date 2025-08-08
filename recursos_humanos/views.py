@@ -122,7 +122,7 @@ def anular_solicitudes_form(request):
 
     solicitudes = []
     if request.method == 'POST':
-        form = AnulacionHorasSamicForm(request.POST)
+        form = AnulacionHorasSamicForm(request.POST or None, user=request.user)
         if form.is_valid():
             empleado = form.cleaned_data['empleado']
             fecha_desde = form.cleaned_data['fecha_desde']
@@ -146,7 +146,7 @@ def anular_solicitudes_form(request):
                 solicitudes = solicitudes.filter(fecha__gte=fecha_limite)
 
     else:
-        form = AnulacionHorasSamicForm()
+        form = AnulacionHorasSamicForm(user=request.user)
 
     return render(request, 'anular-horas-samic.html', {'form': form, 'solicitudes': solicitudes})
 

@@ -41,8 +41,8 @@ def es_calendario(request):
                 return render(request, "es-mensaje.html", {"titulo": "Calendario Existente","mensaje": mensaje})
         
             # Obtener los tipos de días desde la BD
-            tipo_habil = TipoDia.objects.get(id=1)  # ID de "hábil"
-            tipo_inhabil = TipoDia.objects.get(id=2)  # ID de "inhábil"        
+            tipo_habil = TipoDia.objects.get(nombre="hábil") 
+            tipo_inhabil = TipoDia.objects.get(nombre="inhábil")  # ID de "inhábil"        
 
             # Generar los días del año si no existen
             fecha_actual = date(anio, 1, 1)

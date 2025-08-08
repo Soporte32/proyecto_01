@@ -1,8 +1,8 @@
 from django import forms
 from django.utils import timezone
 from datetime import datetime, timedelta
-from django.db.models import Sum, Count
-from estructura.models import SolicitudHorasSamic, Horarios_Horas_Samic, Empleado
+from django.db.models import Sum, Q
+from estructura.models import SolicitudHorasSamic, Horarios_Horas_Samic, Empleado, Dia
 
 def MaxHorasSamicMes(empleado):
     return 300
@@ -42,6 +42,15 @@ class SolicitudHorasSamicForm(forms.ModelForm):
         # Validación de fecha: no puede ser anterior a hoy
         if fecha and fecha < timezone.localdate():
             self.add_error('fecha', "La fecha no puede ser anterior al día de hoy.")
+
+        # Dentro del método clean, después de verificar que la fecha no es anterior a hoy:
+        if fecha:
+            try:
+                dia = Dia.objects.get(fecha=fecha)
+                if dia.tipo_dia.nombre != 'hábil':
+                    self.add_error('fecha', "La fecha no corresponde a un día hábil.")
+            except Dia.DoesNotExist:
+                self.add_error('fecha', "La fecha no está registrada en el calendario de días.")
 
         # Validación de rango horario
         if hora_desde and hora_hasta:
@@ -107,6 +116,19 @@ class SolicitudHorasSamicForm(forms.ModelForm):
 
 
 class AnulacionHorasSamicForm(forms.Form):
-    empleado = forms.ModelChoiceField(queryset=Empleado.objects.all(), required=True, label="Empleado")
+    empleado = forms.ModelChoiceField(queryset=Empleado.objects.none(), required=True, label="Empleado")
     fecha_desde = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True, label="Fecha desde")
 
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(AnulacionHorasSamicForm, self).__init__(*args, **kwargs)
+
+        if user:
+            if user.groups.filter(name='Administradores').exists():
+                self.fields['empleado'].queryset = Empleado.objects.all().order_by('apellido', 'nombre')
+            else:
+                self.fields['empleado'].queryset = Empleado.objects.filter(
+                    Q(autorizante1=user) |
+                    Q(autorizante2=user) |
+                    Q(autorizante3=user)
+                ).order_by('apellido', 'nombre')
